@@ -2,25 +2,64 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #000000;
 }
 
-@theme inline {
+@theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-garnier-reg: "Garnier Regular", times, serif;
+  --font-garnier-italic: "Garnier RegularItalic", times, serif;
+  --font-prime-reg: "CourierPrime Regular", monospace;
+  --font-prime-italic: "CourierPrime Italic", monospace;
+
+  --font-size-garnier-base: 24px;
+  --line-height-garnier-base: 28.8px;
+
+  --font-size-garnier-sm: 20px;
+  --line-height-garnier-sm: 24px;
+
+  --font-size-courier-base: 17px;
+  --line-height-courier-base: 22.1px;
+
+  --font-size-courier-sm: 14px;
+  --line-height-courier-sm: 18.2px;
+}
+
+@layer utilities {
+  .text-garnier-base {
+    font-family: var(--font-garnier-reg);
+    font-size: var(--font-size-garnier-base);
+    line-height: var(--line-height-garnier-base);
+  }
+
+  .text-garnier-sm {
+    font-family: var(--font-garnier-reg);
+    font-size: var(--font-size-garnier-sm);
+    line-height: var(--line-height-garnier-sm);
+  }
+
+  .text-courier-base {
+    font-family: var(--font-prime-reg);
+    font-size: var(--font-size-courier-base);
+    line-height: var(--line-height-courier-base);
+  }
+
+  .text-courier-sm {
+    font-family: var(--font-prime-reg);
+    font-size: var(--font-size-courier-sm);
+    line-height: var(--line-height-courier-sm);
+  }
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #000000;
+    --foreground: #ffffff;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
 }
