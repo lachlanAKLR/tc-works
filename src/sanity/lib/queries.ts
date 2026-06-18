@@ -3,6 +3,7 @@ import { defineQuery } from "next-sanity";
 export const INFORMATION_QUERY = defineQuery(`
   *[_type == "information"][0]{
     _id,
+    _updatedAt,
     about,
     mainImage {
       asset->{
@@ -17,7 +18,7 @@ export const INFORMATION_QUERY = defineQuery(`
         }
       },
       alt
-    },
+    }, 
     email,
     phone,
     instagram,

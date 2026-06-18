@@ -10,7 +10,7 @@ export default function Nav() {
 
   return isStudio ? null : (
     <nav>
-      <div className="flex pt-6 pl-18 pb-0 pr-6">
+      <div className="fixed top-0 left-0 flex pt-6 pl-18 pb-0 pr-6">
         <div className="pr-1">
           <Link href="/">Works,</Link>
         </div>

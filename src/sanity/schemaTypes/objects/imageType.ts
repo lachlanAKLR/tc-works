@@ -4,13 +4,9 @@ import { defineField, defineType } from "sanity";
 export const imageType = defineType({
   name: "imageObject",
   title: "Image",
-  type: "object",
+  type: "image",
   icon: ImageIcon,
   fields: [
-    defineField({
-      name: "asset",
-      type: "image",
-    }),
     defineField({
       name: "alt",
       title: "Alternative text",
@@ -19,10 +15,4 @@ export const imageType = defineType({
       validation: (Rule) => Rule.required(),
     }),
   ],
-  preview: {
-    select: {
-      media: "asset",
-      title: "alt",
-    },
-  },
 });
