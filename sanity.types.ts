@@ -205,9 +205,10 @@ export type AllSanitySchemaTypes = ImageObject | TitledList | BlockContent | Inf
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: INFORMATION_QUERY
-// Query: *[_type == "information"][0]{    _id,    about,    mainImage {      asset->{        _id,        url,        metadata {          dimensions {            width,            height,            aspectRatio          }        }      },      alt    },     email,    phone,    instagram,    linkedin,    address,    titledLists[]{      title,      items    }  }
+// Query: *[_type == "information"][0]{    _id,    _updatedAt,    about,    mainImage {      asset->{        _id,        url,        metadata {          dimensions {            width,            height,            aspectRatio          }        }      },      alt    },     email,    phone,    instagram,    linkedin,    address,    titledLists[]{      title,      items    }  }
 export type INFORMATION_QUERYResult = {
   _id: string;
+  _updatedAt: string;
   about: BlockContent | null;
   mainImage: {
     asset: {
@@ -238,6 +239,6 @@ export type INFORMATION_QUERYResult = {
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
-    "\n  *[_type == \"information\"][0]{\n    _id,\n    about,\n    mainImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height,\n            aspectRatio\n          }\n        }\n      },\n      alt\n    }, \n    email,\n    phone,\n    instagram,\n    linkedin,\n    address,\n    titledLists[]{\n      title,\n      items\n    }\n  }\n": INFORMATION_QUERYResult;
+    "\n  *[_type == \"information\"][0]{\n    _id,\n    _updatedAt,\n    about,\n    mainImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height,\n            aspectRatio\n          }\n        }\n      },\n      alt\n    }, \n    email,\n    phone,\n    instagram,\n    linkedin,\n    address,\n    titledLists[]{\n      title,\n      items\n    }\n  }\n": INFORMATION_QUERYResult;
   }
 }
