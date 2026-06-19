@@ -40,13 +40,17 @@ export default function Informationinformation({
         </div>
       ) : null}
 
-      <div className="col-start-12 col-end-17 pt-6">
+      <div className="col-start-12 col-end-17 ">
         {information?.titledLists ? (
           <div>
             {information.titledLists.map((list) => (
-              <div className="pb-16" key={list.title}>
-                <h4>{list.title}</h4>
-                <ul className="pl-9">
+              <div className="pb-5" key={list.title}>
+                <div className="sticky top-0 z-10">
+                  <div className="flex flex-col justify-end h-16 bg-gradient-to-b from-background from-80% to-background/0">
+                    <h4 className="pb-2.5">{list.title}</h4>
+                  </div>
+                </div>
+                <ul className="pl-9 pb-2 relative -top-2.5">
                   {list?.items?.map((item) => (
                     <li key={item}>{item}</li>
                   ))}
@@ -57,9 +61,13 @@ export default function Informationinformation({
         ) : null}
 
         {information?.instagram ? (
-          <div className="pb-16">
-            <h4>Follow</h4>
-            <div className="pl-9">
+          <div>
+            <div className="sticky top-0 z-10">
+              <div className="flex flex-col justify-end h-16 bg-gradient-to-b from-background from-80% to-background/0">
+                <h4 className="pb-2.5">Follow</h4>
+              </div>
+            </div>
+            <div className="pl-9 relative -top-2.5 pb-4">
               <a
                 href={information.instagram}
                 target="_blank"
@@ -77,8 +85,12 @@ export default function Informationinformation({
 
         {information?.address ? (
           <div className="pb-16">
-            <h4>Office</h4>
-            <div className="pl-9">
+            <div className="sticky top-0 z-10">
+              <div className="flex flex-col justify-end h-16 bg-gradient-to-b from-background from-80% to-background/0">
+                <h4 className="pb-2.5">Office</h4>
+              </div>
+            </div>
+            <div className="pl-9 relative -top-2.5">
               <PortableText value={information?.address} components={PortableTextComponents} />
             </div>
           </div>
@@ -100,7 +112,7 @@ export default function Informationinformation({
         )}
 
         {information?._updatedAt && (
-          <div className="text-courier-base pt-6">
+          <div className="text-courier-base pt-6 pb-80">
             <p>Last Update {formatUpdatedAt(information._updatedAt)}</p>
             <p>
               Website Development:
