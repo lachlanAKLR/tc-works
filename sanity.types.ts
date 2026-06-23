@@ -13,6 +13,74 @@
  */
 
 // Source: schema.json
+export type VideoObject = {
+  _type: "videoObject";
+  cloudId?: string;
+  poster?: ImageObject;
+};
+
+export type CollaboratorTag = {
+  _id: string;
+  _type: "collaboratorTag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+};
+
+export type Slug = {
+  _type: "slug";
+  current?: string;
+  source?: string;
+};
+
+export type ServiceTag = {
+  _id: string;
+  _type: "serviceTag";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  slug?: Slug;
+};
+
+export type Project = {
+  _id: string;
+  _type: "project";
+  _createdAt: string;
+  _updatedAt: string;
+  _rev: string;
+  title?: string;
+  subheading?: string;
+  slug?: Slug;
+  year?: string;
+  services?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "serviceTag";
+  }>;
+  collaborators?: Array<{
+    _ref: string;
+    _type: "reference";
+    _weak?: boolean;
+    _key: string;
+    [internalGroqTypeReferenceTo]?: "collaboratorTag";
+  }>;
+  mainImage?: ImageObject;
+  homeImageWidth?: number;
+  alignRight?: boolean;
+  info?: BlockContent;
+  projectImages?: Array<{
+    _key: string;
+  } & ImageObject | {
+    _key: string;
+  } & VideoObject>;
+  orderRank?: string;
+};
+
 export type ImageObject = {
   _type: "imageObject";
   asset?: {
@@ -25,12 +93,6 @@ export type ImageObject = {
   hotspot?: SanityImageHotspot;
   crop?: SanityImageCrop;
   alt?: string;
-};
-
-export type TitledList = {
-  _type: "titledList";
-  title?: string;
-  items?: Array<string>;
 };
 
 export type BlockContent = Array<{
@@ -64,6 +126,12 @@ export type BlockContent = Array<{
   _type: "image";
   _key: string;
 }>;
+
+export type TitledList = {
+  _type: "titledList";
+  title?: string;
+  items?: Array<string>;
+};
 
 export type Information = {
   _id: string;
@@ -195,13 +263,7 @@ export type Geopoint = {
   alt?: number;
 };
 
-export type Slug = {
-  _type: "slug";
-  current?: string;
-  source?: string;
-};
-
-export type AllSanitySchemaTypes = ImageObject | TitledList | BlockContent | Information | SanityImageCrop | SanityImageHotspot | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint | Slug;
+export type AllSanitySchemaTypes = VideoObject | CollaboratorTag | Slug | ServiceTag | Project | ImageObject | BlockContent | TitledList | Information | SanityImageCrop | SanityImageHotspot | SanityImagePaletteSwatch | SanityImagePalette | SanityImageDimensions | SanityImageMetadata | SanityFileAsset | SanityAssetSourceData | SanityImageAsset | Geopoint;
 export declare const internalGroqTypeReferenceTo: unique symbol;
 // Source: ./src/sanity/lib/queries.ts
 // Variable: INFORMATION_QUERY
@@ -234,11 +296,102 @@ export type INFORMATION_QUERYResult = {
     items: Array<string> | null;
   }> | null;
 } | null;
+// Variable: PROJECTS_QUERY
+// Query: *[_type == "project"] | order(orderRank) {    _id,    title,    subheading,    mainImage {      asset->{        _id,        url,        metadata {          dimensions {            width,            height,            aspectRatio          }        }      },      alt    },    homeImageWidth,    alignRight,     slug  }
+export type PROJECTS_QUERYResult = Array<{
+  _id: string;
+  title: string | null;
+  subheading: string | null;
+  mainImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+      metadata: {
+        dimensions: {
+          width: number | null;
+          height: number | null;
+          aspectRatio: number | null;
+        } | null;
+      } | null;
+    } | null;
+    alt: string | null;
+  } | null;
+  homeImageWidth: number | null;
+  alignRight: boolean | null;
+  slug: Slug | null;
+}>;
+// Variable: PROJECT_QUERY
+// Query: *[_type == "project" && slug.current == $slug][0]{    _id,    title,    subheading,    slug,    year,    services[]->{       _id,      title,      slug    },    collaborators[]->{      _id,      title,      slug    },    mainImage {      asset->{        _id,        url,        metadata {          dimensions {            width,            height,            aspectRatio          }        }      },      alt    },    info,    projectImages[] {      _type == "imageObject" => {        "type": _type,        asset->{          _id,          url,          metadata {            dimensions {              width,              height,              aspectRatio            }          }        },        alt      },      _type == "videoObject" => {        "type": _type,        cloudId,        poster {          asset->{            _id,            url,            metadata {              dimensions {                width,                height              }            }          },          alt        }      }    }  }
+export type PROJECT_QUERYResult = {
+  _id: string;
+  title: string | null;
+  subheading: string | null;
+  slug: Slug | null;
+  year: string | null;
+  services: Array<{
+    _id: string;
+    title: string | null;
+    slug: Slug | null;
+  }> | null;
+  collaborators: Array<{
+    _id: string;
+    title: string | null;
+    slug: Slug | null;
+  }> | null;
+  mainImage: {
+    asset: {
+      _id: string;
+      url: string | null;
+      metadata: {
+        dimensions: {
+          width: number | null;
+          height: number | null;
+          aspectRatio: number | null;
+        } | null;
+      } | null;
+    } | null;
+    alt: string | null;
+  } | null;
+  info: BlockContent | null;
+  projectImages: Array<{
+    type: "imageObject";
+    asset: {
+      _id: string;
+      url: string | null;
+      metadata: {
+        dimensions: {
+          width: number | null;
+          height: number | null;
+          aspectRatio: number | null;
+        } | null;
+      } | null;
+    } | null;
+    alt: string | null;
+  } | {
+    type: "videoObject";
+    cloudId: string | null;
+    poster: {
+      asset: {
+        _id: string;
+        url: string | null;
+        metadata: {
+          dimensions: {
+            width: number | null;
+            height: number | null;
+          } | null;
+        } | null;
+      } | null;
+      alt: string | null;
+    } | null;
+  }> | null;
+} | null;
 
 // Query TypeMap
 import "@sanity/client";
 declare module "@sanity/client" {
   interface SanityQueries {
     "\n  *[_type == \"information\"][0]{\n    _id,\n    _updatedAt,\n    about,\n    mainImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height,\n            aspectRatio\n          }\n        }\n      },\n      alt\n    }, \n    email,\n    phone,\n    instagram,\n    linkedin,\n    address,\n    titledLists[]{\n      title,\n      items\n    }\n  }\n": INFORMATION_QUERYResult;
+    "\n  *[_type == \"project\"] | order(orderRank) {\n    _id,\n    title,\n    subheading,\n    mainImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height,\n            aspectRatio\n          }\n        }\n      },\n      alt\n    },\n    homeImageWidth,\n    alignRight, \n    slug\n  }\n": PROJECTS_QUERYResult;
+    "\n  *[_type == \"project\" && slug.current == $slug][0]{\n    _id,\n    title,\n    subheading,\n    slug,\n    year,\n    services[]->{ \n      _id,\n      title,\n      slug\n    },\n    collaborators[]->{\n      _id,\n      title,\n      slug\n    },\n    mainImage {\n      asset->{\n        _id,\n        url,\n        metadata {\n          dimensions {\n            width,\n            height,\n            aspectRatio\n          }\n        }\n      },\n      alt\n    },\n    info,\n    projectImages[] {\n      _type == \"imageObject\" => {\n        \"type\": _type,\n        asset->{\n          _id,\n          url,\n          metadata {\n            dimensions {\n              width,\n              height,\n              aspectRatio\n            }\n          }\n        },\n        alt\n      },\n      _type == \"videoObject\" => {\n        \"type\": _type,\n        cloudId,\n        poster {\n          asset->{\n            _id,\n            url,\n            metadata {\n              dimensions {\n                width,\n                height\n              }\n            }\n          },\n          alt\n        }\n      }\n    }\n  }\n": PROJECT_QUERYResult;
   }
 }

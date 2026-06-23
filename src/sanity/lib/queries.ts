@@ -30,3 +30,97 @@ export const INFORMATION_QUERY = defineQuery(`
     }
   }
 `);
+
+export const PROJECTS_QUERY = defineQuery(`
+  *[_type == "project"] | order(orderRank) {
+    _id,
+    title,
+    subheading,
+    mainImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          }
+        }
+      },
+      alt
+    },
+    homeImageWidth,
+    alignRight, 
+    slug
+  }
+`);
+
+export const PROJECT_QUERY = defineQuery(`
+  *[_type == "project" && slug.current == $slug][0]{
+    _id,
+    title,
+    subheading,
+    slug,
+    year,
+    services[]->{ 
+      _id,
+      title,
+      slug
+    },
+    collaborators[]->{
+      _id,
+      title,
+      slug
+    },
+    mainImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          }
+        }
+      },
+      alt
+    },
+    info,
+    projectImages[] {
+      _type == "imageObject" => {
+        "type": _type,
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            }
+          }
+        },
+        alt
+      },
+      _type == "videoObject" => {
+        "type": _type,
+        cloudId,
+        poster {
+          asset->{
+            _id,
+            url,
+            metadata {
+              dimensions {
+                width,
+                height
+              }
+            }
+          },
+          alt
+        }
+      }
+    }
+  }
+`);

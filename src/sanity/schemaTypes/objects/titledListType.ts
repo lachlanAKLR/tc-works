@@ -1,6 +1,6 @@
 import { defineType, defineField } from "sanity";
 
-export const titledList = defineType({
+export const titledListType = defineType({
   name: "titledList",
   title: "Titled List",
   type: "object",
@@ -25,9 +25,7 @@ export const titledList = defineType({
     prepare({ title, items }) {
       return {
         title: title || "Untitled List",
-        subtitle: items
-          ? `${items.length} item${items.length === 1 ? "" : "s"}`
-          : "No items",
+        subtitle: items ? `${items.length} item${items.length === 1 ? "" : "s"}` : "No items",
       };
     },
   },

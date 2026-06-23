@@ -1,0 +1,33 @@
+export const colSpanMap: Record<number, string> = {
+  3: "col-span-3",
+  4: "col-span-4",
+  5: "col-span-5",
+  6: "col-span-6",
+  7: "col-span-7",
+  8: "col-span-8",
+  9: "col-span-9",
+  10: "col-span-10",
+  11: "col-span-11",
+  12: "col-span-12",
+  13: "col-[span_13_/_span_13]",
+  14: "col-[span_14_/_span_14]",
+  15: "col-[span_15_/_span_15]",
+  16: "col-[span_16_/_span_16]",
+};
+
+export const colStartMap: Record<number, string> = {
+  3: "col-start-14",
+  4: "col-start-13",
+  5: "col-start-12",
+  6: "col-start-11",
+  7: "col-start-10",
+  8: "col-start-9",
+  9: "col-start-8",
+  10: "col-start-7",
+  11: "col-start-6",
+  12: "col-start-5",
+  13: "col-start-4",
+  14: "col-start-3",
+  15: "col-start-2",
+  16: "col-start-1",
+};

@@ -14,11 +14,21 @@ export const structure: StructureResolver = (S, context) =>
       S.listItem()
         .title("Information Page")
         .icon(InfoOutlineIcon)
-        .child(
-          S.document().schemaType("information").documentId("information"),
-        ),
+        .child(S.document().schemaType("information").documentId("information")),
+
+      S.divider(),
+
+      orderableDocumentListDeskItem({
+        type: "project",
+        title: "Projects",
+        S,
+        icon: MasterDetailIcon,
+        context,
+      }),
 
       ...S.documentTypeListItems().filter(
-        (item) => item.getId() && !["information"].includes(item.getId()!),
+        (item) =>
+          item.getId() &&
+          !["information", "project", "serviceTag", "collaboratorTag"].includes(item.getId()!),
       ),
     ]);

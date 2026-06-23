@@ -27,6 +27,16 @@
 
   --grid-template-columns-16: repeat(16, minmax(0, 1fr));
   --spacing-gutter: 0.75rem;
+
+  --grid-column-span-13: span 13 / span 13;
+  --grid-column-span-14: span 14 / span 14;
+  --grid-column-span-15: span 15 / span 15;
+  --grid-column-span-16: span 16 / span 16;
+
+  --grid-column-start-13: 13;
+  --grid-column-start-14: 14;
+  --grid-column-start-15: 15;
+  --grid-column-start-16: 16;
 }
 
 @layer utilities {
@@ -57,7 +67,7 @@
 
 @layer components {
   .site-grid {
-    @apply grid grid-cols-16 gap-gutter px-8;
+    @apply grid grid-cols-16 gap-gutter gap-y-0;
   }
 }
 
@@ -82,6 +92,7 @@ body {
 html {
   -webkit-touch-callout: none;
   -webkit-user-select: text;
+  overscroll-behavior-y: none;
 }
 
 a[href^="tel"],

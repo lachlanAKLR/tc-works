@@ -7,15 +7,21 @@ export default function Nav() {
   const pathname = usePathname();
 
   const isStudio = pathname.includes("/studio");
+  const isHome = pathname === "/";
+  const isProject = pathname.includes("/project/");
 
-  return isStudio ? null : (
+  return isStudio || isProject ? null : (
     <nav>
-      <div className="fixed top-0 left-0 flex pt-6 pl-18 pb-0 pr-6">
+      <div
+        className={`fixed top-0 left-0 flex pt-6 pl-18 pb-0 pr-6 z-20 ${
+          isHome ? "text-white" : "text-black"
+        }`}
+      >
         <div className="pr-1">
           <Link href="/">Works,</Link>
         </div>
         <div>
-          <Link href="/">Information</Link>
+          <Link href="/information">Information</Link>
         </div>
       </div>
     </nav>
