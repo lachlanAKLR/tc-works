@@ -63,6 +63,32 @@
     font-size: var(--font-size-courier-sm);
     line-height: var(--line-height-courier-sm);
   }
+
+  @variant md {
+    .md\:text-garnier-base {
+      font-family: var(--font-garnier-reg);
+      font-size: var(--font-size-garnier-base);
+      line-height: var(--line-height-garnier-base);
+    }
+
+    .md\:text-garnier-sm {
+      font-family: var(--font-garnier-reg);
+      font-size: var(--font-size-garnier-sm);
+      line-height: var(--line-height-garnier-sm);
+    }
+
+    .md\:text-courier-base {
+      font-family: var(--font-prime-reg);
+      font-size: var(--font-size-courier-base);
+      line-height: var(--line-height-courier-base);
+    }
+
+    .md\:text-courier-sm {
+      font-family: var(--font-prime-reg);
+      font-size: var(--font-size-courier-sm);
+      line-height: var(--line-height-courier-sm);
+    }
+  }
 }
 
 @layer components {

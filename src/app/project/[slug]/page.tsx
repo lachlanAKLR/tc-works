@@ -37,7 +37,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
     <HorizontalScroll>
       <ProjectContent project={project} />
       <ProjectImages project={project} />
-      <div className="sticky right-0 top-0 h-0 shrink-0">
+      <div className="hidden md:block sticky right-0 top-0 h-0 shrink-0">
         <Link href="/" className="absolute top-6 right-6 text-white">
           (Close)
         </Link>

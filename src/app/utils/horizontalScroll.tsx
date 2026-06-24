@@ -6,13 +6,17 @@ export default function HorizontalScroll({ children }: { children: React.ReactNo
   const ref = useRef<HTMLDivElement>(null);
 
   function onWheel(e: React.WheelEvent) {
-    if (!ref.current) return;
+    if (!ref.current || window.innerWidth < 768) return;
     e.preventDefault();
     ref.current.scrollLeft += e.deltaY;
   }
 
   return (
-    <div ref={ref} onWheel={onWheel} className="flex flex-row h-screen overflow-x-scroll">
+    <div
+      ref={ref}
+      onWheel={onWheel}
+      className="flex flex-col md:flex-row h-screen overflow-x-scroll"
+    >
       {children}
     </div>
   );

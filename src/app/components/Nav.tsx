@@ -13,7 +13,7 @@ export default function Nav() {
   return isStudio || isProject ? null : (
     <nav>
       <div
-        className={`fixed top-0 left-0 flex pt-6 pl-18 pb-0 pr-6 z-20 ${
+        className={`fixed top-0 left-0 flex pt-6 pl-18 pb-0 pr-6 z-20 md:text-garnier-base text-garnier-sm ${
           isHome ? "text-white" : "text-black"
         }`}
       >

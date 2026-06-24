@@ -7,11 +7,11 @@ const builder = createImageUrlBuilder({ projectId, dataset });
 
 export default function ProjectImages({ project }: { project: PROJECT_QUERYResult }) {
   return (
-    <div className="h-full shrink-0 flex flex-row">
+    <div className="flex flex-col md:flex-row md:h-full md:shrink-0">
       {project?.projectImages?.map((image, index) => {
         if (image.type !== "imageObject" || !image.asset) return null;
         return (
-          <div key={index} className="h-full shrink-0">
+          <div key={index} className="md:h-full md:shrink-0">
             <Image
               src={builder
                 .image(image.asset as SanityImageSource)
@@ -22,7 +22,7 @@ export default function ProjectImages({ project }: { project: PROJECT_QUERYResul
               width={image.asset.metadata?.dimensions?.width ?? undefined}
               height={image.asset.metadata?.dimensions?.height ?? undefined}
               alt={image.alt ?? ""}
-              className="h-full w-auto"
+              className="w-full md:w-auto md:h-full"
             />
           </div>
         );
