@@ -7,6 +7,7 @@ import ProjectImages from "@/app/components/ProjectImages";
 import HorizontalScroll from "@/app/utils/horizontalScroll";
 import ProjectRelated from "@/app/components/ProjectRelated";
 import Link from "next/link";
+import ProjectClose from "@/app/components/ProjectClose";
 
 export async function generateStaticParams() {
   const projects = await client.fetch(PROJECTS_QUERY);
@@ -36,11 +37,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   return (
     <HorizontalScroll>
       <ProjectContent project={project} />
-      <ProjectImages project={project} />
-      <div className="hidden md:block sticky right-0 top-0 h-0 shrink-0">
-        <Link href="/" className="absolute top-6 right-6 text-white">
-          (Close)
-        </Link>
+      <div className="md:contents">
+        <ProjectImages project={project} />
+        <ProjectClose />
       </div>
       <ProjectRelated projects={related} />
     </HorizontalScroll>
