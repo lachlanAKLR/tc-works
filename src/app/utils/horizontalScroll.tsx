@@ -15,7 +15,7 @@ export default function HorizontalScroll({ children }: { children: React.ReactNo
     <div
       ref={ref}
       onWheel={onWheel}
-      className="flex flex-col md:flex-row h-screen overflow-x-scroll"
+      className="flex flex-col md:flex-row md:h-screen h-auto overflow-x-scroll"
     >
       {children}
     </div>

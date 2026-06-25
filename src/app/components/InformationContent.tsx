@@ -23,7 +23,7 @@ export default function Informationinformation({
   return (
     <>
       <div className="fixed md:hidden h-13.5 w-full bg-linear-to-b from-white from-80% to-white/0 top-0 left-0 z-10" />
-      <main className="px-6 site-grid md:text-garnier-base text-garnier-sm">
+      <main className="px-5 md:px-6 site-grid md:text-garnier-base text-garnier-sm">
         {information?.about ? (
           <div className="col-span-16 md:col-span-10 h-auto md:h-screen justify-between flex flex-col pb-6 pt-12 md:pt-13.5 md:sticky top-0">
             <div>

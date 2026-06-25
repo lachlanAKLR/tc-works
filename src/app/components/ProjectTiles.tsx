@@ -11,7 +11,7 @@ function ProjectTile({ project }: { project: PROJECTS_QUERYResult[number] }) {
   return (
     <Link href={`/project/${project.slug?.current}`} className="block">
       <div className="sticky top-0 z-10 h-0">
-        <h2 className="px-6 pt-12 md:pt-13.25 text-white md:text-garnier-base text-garnier-sm">
+        <h2 className="px-5 md:px-6 pt-12 md:pt-13.25 text-white md:text-garnier-base text-garnier-sm">
           {project.title}
           {project.subheading ? `, ${project.subheading}` : ""}
         </h2>
