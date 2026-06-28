@@ -6,7 +6,6 @@ import ProjectContent from "@/app/components/ProjectContent";
 import ProjectImages from "@/app/components/ProjectImages";
 import HorizontalScroll from "@/app/utils/horizontalScroll";
 import ProjectRelated from "@/app/components/ProjectRelated";
-import Link from "next/link";
 import ProjectClose from "@/app/components/ProjectClose";
 
 export async function generateStaticParams() {
@@ -37,10 +36,8 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   return (
     <HorizontalScroll>
       <ProjectContent project={project} />
-      <div className="md:contents">
-        <ProjectImages project={project} />
-        <ProjectClose />
-      </div>
+      <ProjectImages project={project} />
+      <ProjectClose />
       <ProjectRelated projects={related} />
     </HorizontalScroll>
   );

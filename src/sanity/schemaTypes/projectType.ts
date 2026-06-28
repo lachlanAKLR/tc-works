@@ -66,6 +66,11 @@ export const projectType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "mainVideo",
+      title: "Main Video",
+      type: "videoObject",
+    }),
+    defineField({
       name: "homeImageWidth",
       title: "Home Image Width",
       type: "number",

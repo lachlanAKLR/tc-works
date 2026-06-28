@@ -11,7 +11,6 @@ export const videoType = defineType({
       name: "cloudId",
       title: "Cloudflare Stream ID",
       type: "string",
-      validation: (Rule) => Rule.required(),
     }),
     defineField({
       name: "poster",

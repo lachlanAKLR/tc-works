@@ -50,6 +50,22 @@ export const PROJECTS_QUERY = defineQuery(`
       },
       alt
     },
+    mainVideo {
+      cloudId,
+      poster {
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            }
+          }
+        }
+      }
+    },
     homeImageWidth,
     alignRight, 
     slug
@@ -86,6 +102,22 @@ export const PROJECT_QUERY = defineQuery(`
         }
       },
       alt
+    },
+    mainVideo {
+      cloudId,
+      poster {
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            }
+          }
+        }
+      }
     },
     info,
     projectImages[] {
