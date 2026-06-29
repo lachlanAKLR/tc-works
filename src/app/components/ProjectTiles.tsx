@@ -55,7 +55,10 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
     <div>
       <div className="md:hidden flex flex-col">
         {projects.map((project) => (
-          <div key={project._id} className="relative isolate pb-13.25 -mb-13.25">
+          <div
+            key={project._id}
+            className="relative isolate pb-13.25 -mb-13.25 last:pb-0 last:mb-0"
+          >
             <ProjectTile project={project} />
           </div>
         ))}
@@ -65,10 +68,10 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
         {projects.map((project) => (
           <div
             key={project._id}
-            className={`relative isolate pb-13.25 -mb-13.25
-              ${colSpanMap[project.homeImageWidth ?? 16] ?? "col-span-16"}
-              ${project.alignRight ? (colStartMap[project.homeImageWidth ?? 16] ?? "") : ""}
-            `}
+            className={`relative isolate pb-13.25 -mb-13.25 last:pb-0 last:mb-0
+        ${colSpanMap[project.homeImageWidth ?? 16] ?? "col-span-16"}
+        ${project.alignRight ? (colStartMap[project.homeImageWidth ?? 16] ?? "") : ""}
+      `}
           >
             <ProjectTile project={project} />
           </div>
