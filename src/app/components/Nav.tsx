@@ -13,14 +13,12 @@ export default function Nav() {
   return isStudio || isProject ? null : (
     <nav>
       <div
-        className={`fixed top-0 left-0 flex pt-6 pl-18 pb-0 pr-6 z-20 md:text-garnier-base text-garnier-sm text-black ${
-          isHome ? "text-white" : ""
-        }`}
+        className={`fixed top-0 left-0 flex pt-6 pl-18 pb-0 pr-6 z-20 md:text-garnier-base text-garnier-sm  `}
       >
-        <div className="pr-1">
+        <div className={`${isHome ? "text-white" : "text-black"} pr-1`}>
           <Link href="/">Works,</Link>
         </div>
-        <div>
+        <div className={`${isHome ? "text-white" : "text-black"}`}>
           <Link href="/information">Information</Link>
         </div>
       </div>
