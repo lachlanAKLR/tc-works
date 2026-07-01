@@ -11,6 +11,8 @@ import CloudflareStream from "./CloudflareStream";
 
 const builder = createImageUrlBuilder({ projectId, dataset });
 
+const LINE = 36; // detection line from top — matches useDarkSectionScroll(36)
+
 function ProjectTile({ project }: { project: PROJECTS_QUERYResult[number] }) {
   const dims = project?.mainVideo?.poster?.asset?.metadata?.dimensions;
   const posterUrl = project?.mainVideo?.poster?.asset?.url ?? undefined;
@@ -52,19 +54,22 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
   const refs = useRef<Map<string, HTMLElement>>(new Map());
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.getAttribute("data-id"));
-          }
-        });
-      },
-      { rootMargin: "0px 0px -90% 0px" },
-    );
+    const computeActive = () => {
+      let current = projects[0]?._id ?? null;
+      // last tile (in document order) whose top has crossed the line
+      refs.current.forEach((el, id) => {
+        if (el.getBoundingClientRect().top <= LINE) current = id;
+      });
+      setActiveId(current);
+    };
 
-    refs.current.forEach((el) => observer.observe(el));
-    return () => observer.disconnect();
+    computeActive(); // run immediately on mount → fixes refresh / back-nav
+    window.addEventListener("scroll", computeActive, { passive: true });
+    window.addEventListener("resize", computeActive);
+    return () => {
+      window.removeEventListener("scroll", computeActive);
+      window.removeEventListener("resize", computeActive);
+    };
   }, [projects]);
 
   const activeProject = projects.find((p) => p._id === activeId);
@@ -84,7 +89,6 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
         {projects.map((project) => (
           <div
             key={project._id}
-            data-id={project._id}
             ref={(el) => {
               if (el) refs.current.set(project._id, el);
               else refs.current.delete(project._id);
