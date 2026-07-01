@@ -20,10 +20,23 @@ export function useDarkSectionScroll(navHeight: number) {
     };
 
     handleScroll();
+
+    // Re-check once more after paint, in case .dark tiles weren't
+    // committed to the DOM yet when this effect first ran
+    const raf = requestAnimationFrame(handleScroll);
+
+    // Re-check whenever tiles are added/removed (covers race with ProjectsTiles mounting)
+    const mutationObserver = new MutationObserver(handleScroll);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
+
     window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll);
 
     return () => {
+      cancelAnimationFrame(raf);
+      mutationObserver.disconnect();
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
     };
   }, [navHeight]);
 

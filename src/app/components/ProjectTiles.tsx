@@ -56,17 +56,21 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
   useEffect(() => {
     const computeActive = () => {
       let current = projects[0]?._id ?? null;
-      // last tile (in document order) whose top has crossed the line
       refs.current.forEach((el, id) => {
         if (el.getBoundingClientRect().top <= LINE) current = id;
       });
       setActiveId(current);
     };
 
-    computeActive(); // run immediately on mount → fixes refresh / back-nav
+    computeActive();
+    const raf = requestAnimationFrame(computeActive);
+    window.addEventListener("load", computeActive);
     window.addEventListener("scroll", computeActive, { passive: true });
     window.addEventListener("resize", computeActive);
+
     return () => {
+      cancelAnimationFrame(raf);
+      window.removeEventListener("load", computeActive);
       window.removeEventListener("scroll", computeActive);
       window.removeEventListener("resize", computeActive);
     };
