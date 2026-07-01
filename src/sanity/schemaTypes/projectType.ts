@@ -17,6 +17,11 @@ export const projectType = defineType({
       title: "Home Layout",
       options: { collapsible: true, collapsed: false },
     },
+    {
+      name: "media",
+      title: "Media & Layout",
+      options: { collapsible: false },
+    },
   ],
   fields: [
     defineField({
@@ -53,6 +58,14 @@ export const projectType = defineType({
       fieldset: "meta",
     }),
     defineField({
+      name: "collaboratorsLabel",
+      title: "Collaborators Label",
+      type: "string",
+      placeholder: "Collaborators",
+      description: "Override the default 'Collaborators' label if needed.",
+      fieldset: "meta",
+    }),
+    defineField({
       name: "collaborators",
       title: "Collaborators",
       type: "array",
@@ -64,27 +77,37 @@ export const projectType = defineType({
       title: "Main Image",
       type: "imageObject",
       validation: (Rule) => Rule.required(),
+      fieldset: "media",
     }),
     defineField({
       name: "mainVideo",
       title: "Main Video",
       type: "videoObject",
+      fieldset: "media",
     }),
     defineField({
       name: "homeImageWidth",
       title: "Home Image Width",
       type: "number",
-      fieldset: "homeLayout",
+      fieldset: "media",
       description:
         "How many grid columns the main image spans on the home page (3–16, out of 16 total).",
       validation: (Rule) => Rule.min(3).max(16).integer(),
       initialValue: 16,
     }),
     defineField({
+      name: "darkText",
+      title: "Dark Text",
+      type: "boolean",
+      fieldset: "media",
+      description: "Use black text over this media. Defaults to white.",
+      initialValue: false,
+    }),
+    defineField({
       name: "alignRight",
       title: "Align Right",
       type: "boolean",
-      fieldset: "homeLayout",
+      fieldset: "media",
       initialValue: false,
       options: { layout: "switch" },
     }),

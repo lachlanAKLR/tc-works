@@ -37,7 +37,7 @@ export default function ProjectInfo({ info }: Props) {
 
   return (
     <div className="md:hidden">
-      <div className={expanded ? "" : "line-clamp-3"}>
+      <div className={expanded ? "" : "line-clamp-8"}>
         <PortableText value={otherBlocks} components={getPortableTextComponents()} />
         <p className="text-garnier-sm indent-12">
           {lastBlockText}

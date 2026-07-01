@@ -1,4 +1,6 @@
-// ProjectsTiles.tsx
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import { PROJECTS_QUERYResult } from "../../../sanity.types";
 import Image from "next/image";
 import { dataset, projectId } from "@/sanity/env";
@@ -15,16 +17,10 @@ function ProjectTile({ project }: { project: PROJECTS_QUERYResult[number] }) {
 
   return (
     <Link href={`/project/${project.slug?.current}`} className="block">
-      <div className="sticky top-0 z-10 h-0">
-        <h2 className="px-5 md:px-6 pt-12 md:pt-13.25 text-white md:text-garnier-base text-garnier-sm">
-          {project.title}
-          {project.subheading ? `, ${project.subheading}` : ""}
-        </h2>
-      </div>
       {project?.mainVideo?.cloudId ? (
         <div
-          className="pointer-events-none"
-          style={{ aspectRatio: dims ? `${dims.width}/${dims.height}` : "16/9" }}
+          className="pointer-events-none aspect-3/4 md:aspect-auto"
+          style={{ aspectRatio: dims ? `${dims.width}/${dims.height}` : undefined }}
         >
           <CloudflareStream
             src={project.mainVideo.cloudId}
@@ -36,14 +32,15 @@ function ProjectTile({ project }: { project: PROJECTS_QUERYResult[number] }) {
         <Image
           src={builder
             .image(project.mainImage.asset as SanityImageSource)
-            .width(2000)
+            .width(4000)
+            .quality(100)
             .fit("max")
             .auto("format")
             .url()}
           width={project?.mainImage?.asset?.metadata?.dimensions?.width ?? undefined}
           height={project?.mainImage?.asset?.metadata?.dimensions?.height ?? undefined}
           alt={project?.mainImage?.alt ?? ""}
-          className="h-auto w-full"
+          className="aspect-3/4 w-full object-cover md:aspect-auto md:h-auto md:object-fill"
         />
       ) : null}
     </Link>
@@ -51,27 +48,53 @@ function ProjectTile({ project }: { project: PROJECTS_QUERYResult[number] }) {
 }
 
 export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYResult }) {
+  const [activeId, setActiveId] = useState<string | null>(projects[0]?._id ?? null);
+  const refs = useRef<Map<string, HTMLElement>>(new Map());
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveId(entry.target.getAttribute("data-id"));
+          }
+        });
+      },
+      { rootMargin: "0px 0px -90% 0px" },
+    );
+
+    refs.current.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, [projects]);
+
+  const activeProject = projects.find((p) => p._id === activeId);
+
   return (
     <div>
-      <div className="md:hidden flex flex-col">
-        {projects.map((project) => (
-          <div
-            key={project._id}
-            className="relative isolate pb-13.25 -mb-13.25 last:pb-0 last:mb-0"
-          >
-            <ProjectTile project={project} />
-          </div>
-        ))}
-      </div>
+      <h1
+        className={`md:text-garnier-base text-garnier-sm fixed top-12 left-3.5 md:top-13.5 md:left-5 z-10 pointer-events-none w-full pr-10 ${
+          activeProject?.darkText ? "text-black" : "text-white"
+        }`}
+      >
+        {activeProject?.title}
+        {activeProject?.subheading ? `, ${activeProject.subheading}` : ""}
+      </h1>
 
-      <div className="hidden md:grid site-grid">
+      <div className="flex flex-col md:grid md:site-grid">
         {projects.map((project) => (
           <div
             key={project._id}
-            className={`relative isolate pb-13.25 -mb-13.25 last:pb-0 last:mb-0
-        ${colSpanMap[project.homeImageWidth ?? 16] ?? "col-span-16"}
-        ${project.alignRight ? (colStartMap[project.homeImageWidth ?? 16] ?? "") : ""}
-      `}
+            data-id={project._id}
+            ref={(el) => {
+              if (el) refs.current.set(project._id, el);
+              else refs.current.delete(project._id);
+            }}
+            className={`relative isolate
+              md:pb-13.25 md:-mb-13.25 md:last:pb-0 md:last:mb-0
+              ${colSpanMap[project.homeImageWidth ?? 16] ?? "col-span-16"}
+              ${project.alignRight ? (colStartMap[project.homeImageWidth ?? 16] ?? "") : ""}
+              ${project.darkText ? "dark" : ""}
+            `}
           >
             <ProjectTile project={project} />
           </div>

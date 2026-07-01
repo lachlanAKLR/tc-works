@@ -3,8 +3,6 @@ import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
 
 import { MasterDetailIcon } from "@sanity/icons";
 import { InfoOutlineIcon } from "@sanity/icons";
-import { WrenchIcon } from "@sanity/icons";
-import { DashboardIcon } from "@sanity/icons";
 
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S, context) =>
@@ -29,6 +27,8 @@ export const structure: StructureResolver = (S, context) =>
       ...S.documentTypeListItems().filter(
         (item) =>
           item.getId() &&
-          !["information", "project", "serviceTag", "collaboratorTag"].includes(item.getId()!),
+          !["information", "project", "serviceTag", "collaboratorTag", "media.tag"].includes(
+            item.getId()!,
+          ),
       ),
     ]);

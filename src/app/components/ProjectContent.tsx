@@ -30,7 +30,7 @@ export default function ProjectContent({ project }: { project: PROJECT_QUERYResu
         )}
         {collaborators.length > 0 && (
           <div className="pb-4">
-            <h2 className="uppercase">Collaborators</h2>
+            <h2 className="uppercase">{project?.collaboratorsLabel ?? "Collaborators"}</h2>
             <ul className="flex gap-1">
               {collaborators.map((collaborator, index) => (
                 <li

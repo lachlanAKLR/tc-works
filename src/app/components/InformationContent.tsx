@@ -35,11 +35,11 @@ export default function Informationinformation({
             <div className="pt-12 md:pt-0">
               <div>
                 <span className="pr-3">E</span>
-                {information.email}
+                <a href={`mailto:${information.email}`}>{information.email}</a>
               </div>
               <div>
                 <span className="pr-3">P</span>
-                {information.phone}
+                <a href={`tel:${information.phone}`}>{information.phone}</a>
               </div>
             </div>
           </div>
@@ -124,7 +124,7 @@ export default function Informationinformation({
           )}
 
           {information?._updatedAt && (
-            <div className="text-courier-sm md:text-courier-base pt-6 md:pb-80 pb-4">
+            <div className="text-courier-sm md:text-courier-base pt-80  pb-4">
               <p>Last Update {formatUpdatedAt(information._updatedAt)}</p>
               <p>
                 Website Development:

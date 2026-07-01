@@ -10,7 +10,7 @@ export const informationType = defineType({
     {
       name: "contact",
       title: "Contact Details",
-      options: { collapsible: true, collapsed: true },
+      options: { collapsible: true, collapsed: false },
     },
   ],
   fields: [

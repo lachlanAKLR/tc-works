@@ -66,6 +66,7 @@ export const PROJECTS_QUERY = defineQuery(`
         }
       }
     },
+    darkText,
     homeImageWidth,
     alignRight, 
     slug
@@ -84,6 +85,7 @@ export const PROJECT_QUERY = defineQuery(`
       title,
       slug
     },
+    collaboratorsLabel,
     collaborators[]->{
       _id,
       title,
@@ -119,6 +121,8 @@ export const PROJECT_QUERY = defineQuery(`
         }
       }
     },
+    homeImageWidth,
+    darkText,
     info,
     projectImages[] {
       _type == "imageObject" => {
