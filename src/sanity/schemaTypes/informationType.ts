@@ -19,10 +19,6 @@ export const informationType = defineType({
       type: "blockContent",
     }),
     defineField({
-      name: "mainImage",
-      type: "imageObject",
-    }),
-    defineField({
       name: "email",
       type: "string",
       fieldset: "contact",
@@ -48,10 +44,9 @@ export const informationType = defineType({
       fieldset: "contact",
     }),
     defineField({
-      name: "titledLists",
-      title: "Titled Lists",
-      type: "array",
-      of: [{ type: "titledList" }],
+      name: "footerImage",
+      title: "Footer Image",
+      type: "imageObject",
     }),
   ],
   preview: {

@@ -8,13 +8,17 @@
 @theme {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --font-monument-bold: "Monument Bold", arial, sans;
   --font-garnier-reg: "Garnier Regular", times, serif;
   --font-garnier-italic: "Garnier RegularItalic", times, serif;
   --font-prime-reg: "CourierPrime Regular", monospace;
   --font-prime-italic: "CourierPrime Italic", monospace;
 
-  --font-size-garnier-base: 24px;
-  --line-height-garnier-base: 28.8px;
+  --font-size-monument-base: 17px;
+  --line-height-monument-base: 20.4px;
+
+  --font-size-garnier-base: 32px;
+  --line-height-garnier-base: 38.4px;
 
   --font-size-garnier-sm: 20px;
   --line-height-garnier-sm: 24px;
@@ -40,6 +44,12 @@
 }
 
 @layer utilities {
+  .text-monument-base {
+    font-family: var(--font-monument-bold);
+    font-size: var(--font-size-monument-base);
+    line-height: var(--line-height-monument-base);
+  }
+
   .text-garnier-base {
     font-family: var(--font-garnier-reg);
     font-size: var(--font-size-garnier-base);
@@ -94,6 +104,10 @@
 @layer components {
   .site-grid {
     @apply grid grid-cols-16 gap-gutter gap-y-0;
+  }
+
+  .site-grid-main {
+    @apply grid grid-cols-12 gap-gutter gap-y-0;
   }
 }
 

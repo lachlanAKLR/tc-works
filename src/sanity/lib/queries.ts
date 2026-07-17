@@ -5,7 +5,7 @@ export const INFORMATION_QUERY = defineQuery(`
     _id,
     _updatedAt,
     about,
-    mainImage {
+    footerImage {
       asset->{
         _id,
         url,
@@ -36,6 +36,12 @@ export const PROJECTS_QUERY = defineQuery(`
     _id,
     title,
     subheading,
+    year,
+    services[]->{ 
+    _id,
+    title,
+    slug
+    },
     mainImage {
       asset->{
         _id,
@@ -66,7 +72,37 @@ export const PROJECTS_QUERY = defineQuery(`
         }
       }
     },
-    darkText,
+    hoverImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          }
+        }
+      },
+      alt
+    },
+    hoverVideo {
+      cloudId,
+      poster {
+        asset->{
+          _id,
+          url,
+          metadata {
+            dimensions {
+              width,
+              height,
+              aspectRatio
+            }
+          }
+        }
+      }
+    },
+    "imageCount": count(projectImages),
     homeImageWidth,
     alignRight, 
     slug

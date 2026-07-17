@@ -8,45 +8,53 @@ export default function ProjectContent({ project }: { project: PROJECT_QUERYResu
   const collaborators = project?.collaborators ?? [];
 
   return (
-    <div className="w-full md:w-[62.5%] h-auto md:h-screen p-5 md:p-6 bg-white shrink-0">
-      <h1 className="md:text-garnier-base text-garnier-sm">
+    <>
+      <h1 className="text-monument-base fixed left-35 top-2.25 z-70">
         {project?.title}
         {project?.subheading ? `, ${project?.subheading}` : ""}
       </h1>
-      <ProjectInfo info={project?.info} />
-      <div className="hidden md:block">
-        <PortableText value={project?.info} components={getPortableTextComponents()} />
+
+      <div className="fixed z-60 w-full md:w-[calc(33.3333%-8px)] min-w-100 h-auto md:h-screen p-5 md:p-3 bg-white shrink-0 flex flex-col justify-between">
+        <ProjectInfo info={project?.info} />
+        <div className="hidden md:block pt-20">
+          <PortableText value={project?.info} components={getPortableTextComponents()} />
+        </div>
+        <div className="pt-12">
+          {services.length > 0 && (
+            <div className="pb-1 grid grid-cols-4 gap-x-3">
+              <h2 className="uppercase col-span-1">Services</h2>
+              <ul className="col-span-3">
+                {services.map((service, index) => (
+                  <li key={index} className="inline whitespace-normal">
+                    {`${service.title}${index < services.length - 1 ? ", " : ""}`}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {collaborators.length > 0 && (
+            <div className="pb-1 grid grid-cols-4 gap-x-3">
+              <h2 className="uppercase col-span-1">
+                {project?.collaboratorsLabel ?? "Collaborators"}
+              </h2>
+              <ul className="col-span-3">
+                {collaborators.map((collaborator, index) => (
+                  <li
+                    key={index}
+                    className="inline whitespace-normal"
+                  >{`${collaborator.title}${index < collaborators.length - 1 ? ", " : ""}`}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+          {project?.year ? (
+            <div className="grid grid-cols-4 gap-x-3">
+              <h2 className="uppercase">Year</h2>
+              <p>{project.year}</p>
+            </div>
+          ) : null}
+        </div>
       </div>
-      <div className="text-courier-sm md:text-courier-base pt-12">
-        {services.length > 0 && (
-          <div className="pb-4">
-            <h2 className="uppercase">Services</h2>
-            <ul className="flex gap-1">
-              {services.map((service, index) => (
-                <li key={index}>{`${service.title}${index < services.length - 1 ? ", " : ""}`}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {collaborators.length > 0 && (
-          <div className="pb-4">
-            <h2 className="uppercase">{project?.collaboratorsLabel ?? "Collaborators"}</h2>
-            <ul className="flex gap-1">
-              {collaborators.map((collaborator, index) => (
-                <li
-                  key={index}
-                >{`${collaborator.title}${index < collaborators.length - 1 ? ", " : ""}`}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {project?.year ? (
-          <div className="pb-0 md:pb-4">
-            <h2 className="uppercase">Year</h2>
-            <p>{project.year}</p>
-          </div>
-        ) : null}
-      </div>
-    </div>
+    </>
   );
 }

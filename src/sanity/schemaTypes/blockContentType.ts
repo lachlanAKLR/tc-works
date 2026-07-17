@@ -1,5 +1,37 @@
+import { createElement } from "react";
+import type { PropsWithChildren } from "react";
 import { defineType, defineArrayMember } from "sanity";
 import { ImageIcon } from "@sanity/icons";
+
+const FONT_SANS_BOLD = "var(--font-monument-bold, arial, sans-serif)";
+const FONT_SERIF = "var(--font-garnier-reg, times, serif)";
+
+const styleComponent = (
+  tag: string,
+  fontFamily: string,
+  fontSize: string,
+  lineHeight: string,
+  extra: Record<string, string | number> = {},
+) => {
+  const Component = ({ children }: PropsWithChildren) =>
+    createElement(
+      tag,
+      {
+        style: {
+          fontFamily,
+          fontSize,
+          lineHeight,
+          margin: 0,
+          ...extra,
+        },
+      },
+      children,
+    );
+  return Component;
+};
+
+const SansBold = styleComponent("p", FONT_SANS_BOLD, "17px", "20.4px", { fontWeight: 700 });
+const SerifLarge = styleComponent("p", FONT_SERIF, "32px", "38.4px", { fontWeight: 400 });
 
 export const blockContentType = defineType({
   title: "Block Content",
@@ -9,21 +41,12 @@ export const blockContentType = defineType({
     defineArrayMember({
       type: "block",
       styles: [
-        { title: "Normal", value: "normal" },
-        { title: "H1", value: "h1" },
-        { title: "H2", value: "h2" },
-        { title: "H3", value: "h3" },
-        { title: "H4", value: "h4" },
-        { title: "Quote", value: "blockquote" },
-        { title: "Small", value: "small" },
+        { title: "Sans Bold", value: "normal", component: SansBold },
+        { title: "Serif Large", value: "serifLarge", component: SerifLarge },
       ],
-
       lists: [{ title: "Bullet", value: "bullet" }],
       marks: {
-        decorators: [
-          { title: "Strong", value: "strong" },
-          { title: "Emphasis", value: "em" },
-        ],
+        decorators: [{ title: "Emphasis", value: "em" }],
         annotations: [
           {
             title: "URL",

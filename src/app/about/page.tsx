@@ -7,7 +7,7 @@ export async function generateMetadata() {
     query: INFORMATION_QUERY,
     stega: false,
   });
-  return { title: data ? "Information" : "Information not found" };
+  return { title: data ? "About" : "Tom Clayton" };
 }
 
 export default async function InformationPage() {

@@ -2,27 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useDarkSectionScroll } from "../hooks/useDarkSectionScroll";
 
 export default function Nav() {
   const pathname = usePathname();
-  const isDark = useDarkSectionScroll(36);
 
   const isStudio = pathname.includes("/studio");
-  const isHome = pathname === "/";
   const isProject = pathname.includes("/project/");
-  const isInfo = pathname === "/information";
+  const isHome = pathname === "/";
+  const isIndex = pathname.includes("/overview");
+  const isAbout = pathname.includes("/about");
 
-  const textColor = isHome ? (isDark ? "text-black" : "text-white") : "text-black";
-
-  return isStudio || isProject ? null : (
+  return isStudio ? null : (
     <nav>
-      <div className="fixed top-0 left-0 flex pt-6 pl-18 pb-0 pr-6 z-20 md:text-garnier-base text-garnier-sm">
-        <div className={`${textColor} ${isInfo ? "opacity-20" : "opacity-100"} pr-1`}>
-          <Link href="/">Works,</Link>
-        </div>
-        <div className={textColor}>
-          <Link href="/information">Information</Link>
+      <div className="fixed top-0 left-0 pt-2.25 z-20 text-monument-base  w-full h-9 site-grid-main px-3">
+        {isProject ? null : <h1 className="col-span-6">TOM CLAYTON</h1>}
+        <div className="flex gap-1">
+          <Link href="/">{isHome || isProject ? "WORKS," : "Works,"}</Link>
+          <Link href="/overview">{isIndex ? "INDEX," : "Index,"}</Link>
+          <Link href="/about">{isAbout ? "ABOUT" : "About"}</Link>
         </div>
       </div>
     </nav>

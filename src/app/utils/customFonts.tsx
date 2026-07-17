@@ -1,5 +1,12 @@
 import localFont from "next/font/local";
 
+const monumentBold = localFont({
+  src: "../fonts/ABCMonumentGrotesk-Bold-Trial.woff",
+  variable: "--font-monument-bold",
+  weight: "400",
+  style: "normal",
+});
+
 const garnierReg = localFont({
   src: "../fonts/PoWGarnierDemo-Regular.woff",
   variable: "--font-garnier-reg",
@@ -28,4 +35,4 @@ const primeIta = localFont({
   style: "normal",
 });
 
-export { garnierReg, garnierIta, primeReg, primeIta };
+export { garnierReg, garnierIta, primeReg, primeIta, monumentBold };

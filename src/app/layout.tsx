@@ -5,8 +5,9 @@ import { DisableDraftMode } from "./components/disable-draft-mode";
 import { SanityLive } from "@/sanity/lib/live";
 import "./globals.css";
 
-import { garnierReg, garnierIta, primeReg, primeIta } from "./utils/customFonts";
+import { garnierReg, garnierIta, monumentBold } from "./utils/customFonts";
 import Nav from "./components/Nav";
+import Footer from "./components/Footer";
 
 export const metadata: Metadata = {
   title: "Tom Clayton Works",
@@ -21,10 +22,11 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${garnierReg.variable} ${garnierIta.variable} ${primeReg.variable} ${primeIta.variable} antialiased text-garnier-base`}
+        className={`${monumentBold.variable} ${garnierReg.variable} ${garnierIta.variable}  antialiased text-monument-base`}
       >
         <Nav />
         {children}
+        <Footer />
         <SanityLive />
         {(await draftMode()).isEnabled && (
           <>

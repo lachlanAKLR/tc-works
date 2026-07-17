@@ -27,7 +27,7 @@ export default function ProjectRelated({ projects }: { projects: PROJECTS_QUERYR
                   width={project?.mainImage?.asset?.metadata?.dimensions?.width ?? undefined}
                   height={project?.mainImage?.asset?.metadata?.dimensions?.height ?? undefined}
                   alt={project?.mainImage?.alt ?? ""}
-                  className="h-full w-full object-cover opcaity-100 md:opacity-30 hover:opacity-100 transition-all ease duration-200"
+                  className="h-full w-full object-cover transition-all ease duration-200"
                 />
               )}
             </Link>

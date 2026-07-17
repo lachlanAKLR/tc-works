@@ -9,7 +9,8 @@ const builder = createImageUrlBuilder({ projectId, dataset });
 
 export default function ProjectImages({ project }: { project: PROJECT_QUERYResult }) {
   return (
-    <div className="flex flex-col md:flex-row md:h-full md:shrink-0">
+    <div className="flex flex-col md:flex-row md:h-full md:shrink-0 z-60">
+      <div className="w-[calc(33.3333vw-8px)] min-w-100" aria-hidden></div>
       {project?.mainVideo?.cloudId ? (
         (() => {
           const dims = project.mainVideo.poster?.asset?.metadata?.dimensions;
@@ -69,7 +70,7 @@ export default function ProjectImages({ project }: { project: PROJECT_QUERYResul
           return (
             <div
               key={index}
-              className="md:h-full md:shrink-0 relative pointer-events-none"
+              className="md:h-full md:shrink-0 relative pointer-events-none overflow-hidden"
               style={{ aspectRatio: dims ? `${dims.width}/${dims.height}` : "16/9" }}
             >
               <CloudflareStream

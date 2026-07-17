@@ -4,14 +4,9 @@ export function getPortableTextComponents(indent = true): Partial<PortableTextRe
   return {
     block: {
       normal: ({ children }) => (
-        <p
-          className={`${indent ? "indent-12" : "first:indent-0 indent-12"} md:text-garnier-base text-garnier-sm`}
-        >
-          {children}
-        </p>
+        <p className={`first:indent-0 indent-12 text-monument-base`}>{children}</p>
       ),
-      h4: ({ children }) => <h4 className="">{children}</h4>,
-      small: ({ children }) => <p className="">{children}</p>,
+      serifLarge: ({ children }) => <h2 className="text-garnier-base pb-4">{children}</h2>,
     },
   };
 }

@@ -11,7 +11,7 @@ import CloudflareStream from "./CloudflareStream";
 
 const builder = createImageUrlBuilder({ projectId, dataset });
 
-const LINE = 36; // detection line from top — matches useDarkSectionScroll(36)
+const LINE = 36;
 
 function ProjectTile({ project }: { project: PROJECTS_QUERYResult[number] }) {
   const dims = project?.mainVideo?.poster?.asset?.metadata?.dimensions;
@@ -34,8 +34,8 @@ function ProjectTile({ project }: { project: PROJECTS_QUERYResult[number] }) {
         <Image
           src={builder
             .image(project.mainImage.asset as SanityImageSource)
-            .width(4000)
-            .quality(100)
+            .width(2000)
+            .quality(75)
             .fit("max")
             .auto("format")
             .url()}
@@ -53,6 +53,8 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
   const [activeId, setActiveId] = useState<string | null>(projects[0]?._id ?? null);
   const refs = useRef<Map<string, HTMLElement>>(new Map());
 
+  const [footerVisible, setFooterVisible] = useState(false);
+
   useEffect(() => {
     const computeActive = () => {
       let current = projects[0]?._id ?? null;
@@ -60,6 +62,9 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
         if (el.getBoundingClientRect().top <= LINE) current = id;
       });
       setActiveId(current);
+
+      const footer = document.getElementById("site-footer");
+      setFooterVisible(!!footer && footer.getBoundingClientRect().top < window.innerHeight);
     };
 
     computeActive();
@@ -80,13 +85,15 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
 
   return (
     <div>
-      <h1
-        className={`md:text-garnier-base text-garnier-sm fixed top-12 left-3.5 md:top-13.5 md:left-5 z-10 pointer-events-none w-full pr-10 ${
-          activeProject?.darkText ? "text-black" : "text-white"
-        }`}
-      >
-        {activeProject?.title}
-        {activeProject?.subheading ? `, ${activeProject.subheading}` : ""}
+      <h1 className="text-monument-base fixed left-35 top-2.25 z-50 pointer-events-none w-full pr-10 text-black">
+        {footerVisible ? (
+          "is open for business"
+        ) : (
+          <>
+            {activeProject?.title}
+            {activeProject?.subheading ? `, ${activeProject.subheading}` : ""}
+          </>
+        )}
       </h1>
 
       <div className="flex flex-col md:grid md:site-grid">
@@ -101,7 +108,6 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
               md:pb-13.25 md:-mb-13.25 md:last:pb-0 md:last:mb-0
               ${colSpanMap[project.homeImageWidth ?? 16] ?? "col-span-16"}
               ${project.alignRight ? (colStartMap[project.homeImageWidth ?? 16] ?? "") : ""}
-              ${project.darkText ? "dark" : ""}
             `}
           >
             <ProjectTile project={project} />

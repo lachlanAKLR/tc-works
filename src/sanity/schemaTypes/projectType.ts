@@ -22,6 +22,11 @@ export const projectType = defineType({
       title: "Media & Layout",
       options: { collapsible: false },
     },
+    {
+      name: "hover",
+      title: "Hover State",
+      options: { collapsible: false },
+    },
   ],
   fields: [
     defineField({
@@ -35,7 +40,7 @@ export const projectType = defineType({
       title: "Subheading",
       type: "string",
       description:
-        "Optional context under the title — e.g. a studio he worked within (Base Design) or left blank if the project is his own client (Midi Coffee).",
+        "Optional context under the title — e.g. a studio worked within (Base Design) or left blank if the project is own client (Midi Coffee).",
     }),
     defineField({
       name: "slug",
@@ -76,12 +81,23 @@ export const projectType = defineType({
       name: "mainImage",
       title: "Main Image",
       type: "imageObject",
-      validation: (Rule) => Rule.required(),
       fieldset: "media",
     }),
     defineField({
       name: "mainVideo",
       title: "Main Video",
+      type: "videoObject",
+      fieldset: "media",
+    }),
+    defineField({
+      name: "hoverImage",
+      title: "Hover Image",
+      type: "imageObject",
+      fieldset: "media",
+    }),
+    defineField({
+      name: "hoverVideo",
+      title: "Hover Video",
       type: "videoObject",
       fieldset: "media",
     }),
@@ -94,14 +110,6 @@ export const projectType = defineType({
         "How many grid columns the main image spans on the home page (3–16, out of 16 total).",
       validation: (Rule) => Rule.min(3).max(16).integer(),
       initialValue: 16,
-    }),
-    defineField({
-      name: "darkText",
-      title: "Dark Text",
-      type: "boolean",
-      fieldset: "media",
-      description: "Use black text over this media. Defaults to white.",
-      initialValue: false,
     }),
     defineField({
       name: "alignRight",
