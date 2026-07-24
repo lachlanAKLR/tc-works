@@ -14,17 +14,17 @@ export default async function Footer() {
     <FooterVisibility>
       <footer id="site-footer">
         <div className="h-screen flex flex-col justify-center items-center relative">
-          <div className="text-[128px] -rotate-3">
+          <div className="text-[44px] md:text-[128px] -rotate-3 text-center">
             <a className="pr-5 " href={`mailto:${information?.email}`}>
               Email,
             </a>
             <a href={`${information?.instagram}`}>Instagram</a>
           </div>
           <div className="site-grid-main w-full absolute bottom-0 p-3">
-            <div className="col-start-1 col-end-6 self-end">
+            <div className="col-start-1 col-end-8 self-end">
               <p>{information.footerImage.alt}</p>
             </div>
-            <div className="col-start-11 col-end-13">
+            <div className="col-start-9 md:col-start-11 col-end-13">
               <Image
                 src={builder
                   .image(information.footerImage.asset as SanityImageSource)
