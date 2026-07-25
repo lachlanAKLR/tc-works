@@ -26,7 +26,7 @@ export default function Nav() {
         {isProject ? null : <h1 className="col-span-6">TOM CLAYTON</h1>}
         <div className="hidden md:flex gap-1">{links}</div>
       </div>
-      <div className="md:hidden fixed bottom-0 left-0 z-20 w-full h-15 flex items-end justify-center pb-3 text-monument-base bg-linear-to-b from-white/0 to-white">
+      <div className="md:hidden fixed bottom-0 left-0 z-100 w-full h-15 flex items-end justify-center pb-3 text-monument-base bg-linear-to-b from-white/0 to-white">
         <div className="flex gap-1">{links}</div>
       </div>
     </nav>

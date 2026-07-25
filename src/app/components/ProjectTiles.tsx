@@ -85,7 +85,10 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
 
   return (
     <div>
-      <h1 className="text-monument-base fixed left-35 top-2.25 z-50 pointer-events-none w-full pr-10 text-black">
+      <h1
+        className="text-monument-base fixed left-35 top-2.25 z-50 pointer-events-none w-4/5 md:w-full pr-10 text-black whitespace-pre-line
+    "
+      >
         {footerVisible ? (
           "is open for business"
         ) : (

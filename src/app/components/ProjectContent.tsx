@@ -1,7 +1,6 @@
 import { PortableText } from "next-sanity";
 import { PROJECT_QUERYResult } from "../../../sanity.types";
 import { getPortableTextComponents } from "./PortableTextComponents";
-import ProjectInfo from "./ProjectInfo";
 
 export default function ProjectContent({ project }: { project: PROJECT_QUERYResult }) {
   const services = project?.services ?? [];
@@ -14,9 +13,8 @@ export default function ProjectContent({ project }: { project: PROJECT_QUERYResu
         {project?.subheading ? `, ${project?.subheading}` : ""}
       </h1>
 
-      <div className="fixed z-60 w-full md:w-[calc(33.3333%-8px)] min-w-100 h-auto md:h-screen p-5 md:p-3 bg-white shrink-0 flex flex-col justify-between">
-        <ProjectInfo info={project?.info} />
-        <div className="hidden md:block pt-20">
+      <div className="block md:fixed z-60 w-full md:w-[calc(33.3333%-8px)] min-w-100 h-auto md:h-screen p-5 md:p-3 bg-white shrink-0 flex-col justify-between">
+        <div className="block pt-20">
           <PortableText value={project?.info} components={getPortableTextComponents()} />
         </div>
         <div className="pt-12">

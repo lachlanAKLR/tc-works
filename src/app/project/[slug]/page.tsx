@@ -25,7 +25,7 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
   });
 
   const related = projects
-    .filter((p) => p._id !== project?._id)
+    .filter((p) => p._id !== project?._id && p.mainImage?.asset)
     .sort(() => Math.random() - 0.5)
     .slice(0, 5);
 
