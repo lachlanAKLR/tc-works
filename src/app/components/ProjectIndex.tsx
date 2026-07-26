@@ -10,9 +10,15 @@ import CloudflareStream from "./CloudflareStream";
 
 const builder = createImageUrlBuilder({ projectId, dataset });
 
-function ProjectLine({ project }: { project: PROJECTS_QUERYResult[number] }) {
-  // Mobile dropdown open/close state (noCase rows only)
-  const [open, setOpen] = useState(false);
+function ProjectLine({
+  project,
+  open,
+  onToggle,
+}: {
+  project: PROJECTS_QUERYResult[number];
+  open: boolean;
+  onToggle: () => void;
+}) {
   const services = project?.services ?? [];
   const noCase = project.imageCount === null;
 
@@ -75,7 +81,7 @@ function ProjectLine({ project }: { project: PROJECTS_QUERYResult[number] }) {
           For noCase rows with media, the mobile title is a button that toggles the dropdown. */}
       <div className="col-span-12 md:col-span-5 flex justify-between md:block">
         {noCase && media ? (
-          <button type="button" className="text-left md:hidden" onClick={() => setOpen((o) => !o)}>
+          <button type="button" className="text-left md:hidden" onClick={onToggle}>
             {project?.title}
             {project?.subheading ? `, ${project?.subheading}` : ""}
           </button>
@@ -112,16 +118,25 @@ function ProjectLine({ project }: { project: PROJECTS_QUERYResult[number] }) {
 }
 
 export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYResult }) {
+  // Id of the single mobile dropdown currently open (only one at a time)
+  const [openId, setOpenId] = useState<string | null>(null);
+
   return (
     <section>
       <div className="pt-21 px-3 flex flex-col gap-3 [&:has(>*:hover)>*:not(:hover)]:opacity-25 min-h-screen">
         {projects.map((project) => {
           const noCase = project.imageCount === null;
           const className = "site-grid-main group transition-opacity duration-200";
+          const lineProps = {
+            project,
+            open: openId === project._id,
+            onToggle: () =>
+              setOpenId((id) => (id === project._id ? null : project._id)),
+          };
 
           return noCase ? (
             <div key={project._id} className={className}>
-              <ProjectLine project={project} />
+              <ProjectLine {...lineProps} />
             </div>
           ) : (
             <Link
@@ -129,7 +144,7 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
               href={`/project/${project.slug?.current}`}
               className={className}
             >
-              <ProjectLine project={project} />
+              <ProjectLine {...lineProps} />
             </Link>
           );
         })}
