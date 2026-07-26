@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import { PROJECTS_QUERYResult } from "../../../sanity.types";
 import Image from "next/image";
 import { dataset, projectId } from "@/sanity/env";
@@ -8,38 +11,88 @@ import CloudflareStream from "./CloudflareStream";
 const builder = createImageUrlBuilder({ projectId, dataset });
 
 function ProjectLine({ project }: { project: PROJECTS_QUERYResult[number] }) {
+  // Mobile dropdown open/close state (noCase rows only)
+  const [open, setOpen] = useState(false);
   const services = project?.services ?? [];
   const noCase = project.imageCount === null;
 
   const dims = project?.hoverVideo?.poster?.asset?.metadata?.dimensions;
   const posterUrl = project?.hoverVideo?.poster?.asset?.url ?? undefined;
 
+  // Hover/dropdown media — Cloudflare video if present, else hover image, else null.
+  // Rendered in two places: desktop hover overlay + mobile dropdown.
+  const media = project?.hoverVideo?.cloudId ? (
+    <div
+      className="aspect-3/4 md:aspect-auto"
+      style={{ aspectRatio: dims ? `${dims.width}/${dims.height}` : undefined }}
+    >
+      <CloudflareStream
+        src={project.hoverVideo.cloudId}
+        poster={posterUrl}
+        className="h-full w-full object-cover"
+      />
+    </div>
+  ) : project?.hoverImage?.asset ? (
+    <Image
+      src={builder
+        .image(project.hoverImage.asset as SanityImageSource)
+        .width(2000)
+        .quality(75)
+        .fit("max")
+        .auto("format")
+        .url()}
+      width={project?.hoverImage?.asset?.metadata?.dimensions?.width ?? undefined}
+      height={project?.hoverImage?.asset?.metadata?.dimensions?.height ?? undefined}
+      alt={project?.hoverImage?.alt ?? ""}
+      className="w-full object-cover"
+    />
+  ) : null;
+
+  // Status icon — eye for noCase projects, filled dot for case studies
+  const icon = noCase ? (
+    <Image
+      src="/eye.svg"
+      alt="eye icon"
+      width={8}
+      height={8}
+      className="h-3 w-auto relative top-0.75"
+    />
+  ) : (
+    <div className="mx-0.5 w-3 h-3 rounded-full bg-black relative top-0.75"></div>
+  );
+
   return (
     <>
-      <div className="col-span-1 w-full flex justify-between">
+      {/* Year + hover-revealed icon (desktop, col 1) */}
+      <div className="hidden md:flex col-span-1 w-full justify-between">
         <p>{project.year}</p>
         <div className="opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-          {noCase ? (
-            <Image
-              src="/eye.svg"
-              alt="eye icon"
-              width={8}
-              height={8}
-              className="h-3 w-auto relative top-0.75"
-            />
-          ) : (
-            <div className="w-3 h-3 rounded-full bg-black relative top-0.75"></div>
-          )}
+          {icon}
         </div>
       </div>
 
-      <p className="col-span-5">
-        {project?.title}
-        {project?.subheading ? `, ${project?.subheading}` : ""}
-      </p>
+      {/* Title row — desktop: plain text; mobile: title + always-visible icon.
+          For noCase rows with media, the mobile title is a button that toggles the dropdown. */}
+      <div className="col-span-12 md:col-span-5 flex justify-between md:block">
+        {noCase && media ? (
+          <button type="button" className="text-left md:hidden" onClick={() => setOpen((o) => !o)}>
+            {project?.title}
+            {project?.subheading ? `, ${project?.subheading}` : ""}
+          </button>
+        ) : null}
+        <p className={noCase && media ? "hidden md:block" : ""}>
+          {project?.title}
+          {project?.subheading ? `, ${project?.subheading}` : ""}
+        </p>
+        <div className="md:hidden">{icon}</div>
+      </div>
 
+      {/* Mobile dropdown — full-width media revealed under the row when the title is tapped */}
+      {noCase && media && open && <div className="md:hidden col-span-12 w-full pt-2">{media}</div>}
+
+      {/* Service tags (desktop only) */}
       {services.length > 0 && (
-        <ul className="col-span-6 flex gap-1">
+        <ul className="hidden md:flex col-span-6 gap-1">
           {services.map((service, index) => (
             <li key={index} className="inline whitespace-normal">
               {`${service.title}${index < services.length - 1 ? ", " : ""}`}
@@ -48,36 +101,10 @@ function ProjectLine({ project }: { project: PROJECTS_QUERYResult[number] }) {
         </ul>
       )}
 
-      {(project?.hoverVideo?.cloudId || project?.hoverImage?.asset) && (
-        <div className="pointer-events-none fixed inset-0 z-50 flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-          <div className="w-[25vw] max-w-150">
-            {project?.hoverVideo?.cloudId ? (
-              <div
-                className="aspect-3/4 md:aspect-auto"
-                style={{ aspectRatio: dims ? `${dims.width}/${dims.height}` : undefined }}
-              >
-                <CloudflareStream
-                  src={project.hoverVideo.cloudId}
-                  poster={posterUrl}
-                  className="h-full w-full object-cover"
-                />
-              </div>
-            ) : project?.hoverImage?.asset ? (
-              <Image
-                src={builder
-                  .image(project.hoverImage.asset as SanityImageSource)
-                  .width(4000)
-                  .quality(100)
-                  .fit("max")
-                  .auto("format")
-                  .url()}
-                width={project?.hoverImage?.asset?.metadata?.dimensions?.width ?? undefined}
-                height={project?.hoverImage?.asset?.metadata?.dimensions?.height ?? undefined}
-                alt={project?.hoverImage?.alt ?? ""}
-                className="w-full object-cover"
-              />
-            ) : null}
-          </div>
+      {/* Desktop hover overlay — centered, fixed, fades in on row hover */}
+      {media && (
+        <div className="pointer-events-none fixed inset-0 z-50 hidden md:flex items-center justify-center opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+          <div className="w-[25vw] max-w-150">{media}</div>
         </div>
       )}
     </>
