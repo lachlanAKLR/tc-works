@@ -7,6 +7,8 @@ export default function FooterVisibility({ children }: { children: React.ReactNo
 
   const isStudio = pathname.includes("/studio");
   const isProject = pathname.includes("/project/");
+  const isIndex = pathname.includes("/overview");
+  const isAbout = pathname.includes("/about");
 
-  return isStudio || isProject ? null : <>{children}</>;
+  return isStudio || isProject || isIndex || isAbout ? null : <>{children}</>;
 }

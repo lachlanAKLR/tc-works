@@ -43,11 +43,6 @@ export const informationType = defineType({
       type: "blockContent",
       fieldset: "contact",
     }),
-    defineField({
-      name: "footerImage",
-      title: "Footer Image",
-      type: "imageObject",
-    }),
   ],
   preview: {
     prepare() {

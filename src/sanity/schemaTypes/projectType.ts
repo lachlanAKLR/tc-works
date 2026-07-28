@@ -1,5 +1,5 @@
 import { DocumentTextIcon } from "@sanity/icons";
-import { defineField, defineType } from "sanity";
+import { defineArrayMember, defineField, defineType } from "sanity";
 
 export const projectType = defineType({
   name: "project",
@@ -43,6 +43,11 @@ export const projectType = defineType({
         "Optional context under the title — e.g. a studio worked within (Base Design) or left blank if the project is own client (Midi Coffee).",
     }),
     defineField({
+      name: "subtitle",
+      title: "Subtitle",
+      type: "string",
+    }),
+    defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
@@ -63,19 +68,42 @@ export const projectType = defineType({
       fieldset: "meta",
     }),
     defineField({
-      name: "collaboratorsLabel",
-      title: "Collaborators Label",
-      type: "string",
-      placeholder: "Collaborators",
-      description: "Override the default 'Collaborators' label if needed.",
-      fieldset: "meta",
-    }),
-    defineField({
       name: "collaborators",
       title: "Collaborators",
       type: "array",
       of: [{ type: "reference", to: [{ type: "collaboratorTag" }] }],
       fieldset: "meta",
+    }),
+    defineField({
+      name: "additionalInfo",
+      title: "Additional Info",
+      type: "array",
+      fieldset: "meta",
+      description:
+        "Optional extra label/value rows shown before the Year (e.g. IMAGES → Josh Robenstone, Rory Gardiner). Add as many as needed, or leave empty.",
+      of: [
+        defineArrayMember({
+          type: "object",
+          name: "infoRow",
+          fields: [
+            defineField({
+              name: "label",
+              title: "Label",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+            defineField({
+              name: "value",
+              title: "Value",
+              type: "string",
+              validation: (Rule) => Rule.required(),
+            }),
+          ],
+          preview: {
+            select: { title: "label", subtitle: "value" },
+          },
+        }),
+      ],
     }),
     defineField({
       name: "mainImage",

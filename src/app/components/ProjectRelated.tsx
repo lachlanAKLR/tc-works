@@ -9,6 +9,10 @@ const builder = createImageUrlBuilder({ projectId, dataset });
 export default function ProjectRelated({ projects }: { projects: PROJECTS_QUERYResult }) {
   return (
     <>
+      {/* Mobile-only heading — bold body copy */}
+      <div className="block md:hidden">
+        <h2 className="text-monument-base text-center w-full py-20">More Projects</h2>
+      </div>
       <div className="h-auto md:h-full flex flex-row md:flex-col shrink-0 overflow-x-scroll md:overflow-x-visible">
         {projects.slice(0, 5).map((project) => (
           <div className="w-[45vw] md:w-auto md:h-1/5 shrink-0 aspect-square" key={project._id}>

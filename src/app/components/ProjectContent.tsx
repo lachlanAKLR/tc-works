@@ -5,6 +5,7 @@ import { getPortableTextComponents } from "./PortableTextComponents";
 export default function ProjectContent({ project }: { project: PROJECT_QUERYResult }) {
   const services = project?.services ?? [];
   const collaborators = project?.collaborators ?? [];
+  const additionalInfo = project?.additionalInfo ?? [];
 
   return (
     <>
@@ -13,7 +14,7 @@ export default function ProjectContent({ project }: { project: PROJECT_QUERYResu
         {project?.subheading ? `, ${project?.subheading}` : ""}
       </h1>
 
-      <div className="block md:fixed z-60 w-full md:w-[calc(33.3333%-8px)] min-w-100 h-auto md:h-screen p-5 md:p-3 bg-white shrink-0 flex-col justify-between">
+      <div className="block md:fixed z-60 w-full md:w-[calc(33.3333%-8px)] min-w-100 h-auto md:h-screen p-5 md:p-3 bg-white text-black dark:bg-black dark:text-white shrink-0 flex flex-col justify-between">
         <div className="block pt-20">
           <PortableText value={project?.info} components={getPortableTextComponents()} />
         </div>
@@ -32,9 +33,7 @@ export default function ProjectContent({ project }: { project: PROJECT_QUERYResu
           )}
           {collaborators.length > 0 && (
             <div className="pb-1 grid grid-cols-4 gap-x-3">
-              <h2 className="uppercase col-span-1">
-                {project?.collaboratorsLabel ?? "Collaborators"}
-              </h2>
+              <h2 className="uppercase col-span-1">Team</h2>
               <ul className="col-span-3">
                 {collaborators.map((collaborator, index) => (
                   <li
@@ -45,6 +44,12 @@ export default function ProjectContent({ project }: { project: PROJECT_QUERYResu
               </ul>
             </div>
           )}
+          {additionalInfo.map((row, index) => (
+            <div key={index} className="pb-1 grid grid-cols-4 gap-x-3">
+              <h2 className="uppercase col-span-1">{row.label}</h2>
+              <p className="col-span-3">{row.value}</p>
+            </div>
+          ))}
           {project?.year ? (
             <div className="grid grid-cols-4 gap-x-3">
               <h2 className="uppercase">Year</h2>

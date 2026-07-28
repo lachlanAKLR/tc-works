@@ -3,6 +3,7 @@ import { orderableDocumentListDeskItem } from "@sanity/orderable-document-list";
 
 import { MasterDetailIcon } from "@sanity/icons";
 import { InfoOutlineIcon } from "@sanity/icons";
+import { CogIcon } from "@sanity/icons";
 
 // https://www.sanity.io/docs/structure-builder-cheat-sheet
 export const structure: StructureResolver = (S, context) =>
@@ -13,6 +14,11 @@ export const structure: StructureResolver = (S, context) =>
         .title("Information Page")
         .icon(InfoOutlineIcon)
         .child(S.document().schemaType("information").documentId("information")),
+
+      S.listItem()
+        .title("Site Settings")
+        .icon(CogIcon)
+        .child(S.document().schemaType("siteSettings").documentId("siteSettings")),
 
       S.divider(),
 
@@ -27,7 +33,7 @@ export const structure: StructureResolver = (S, context) =>
       ...S.documentTypeListItems().filter(
         (item) =>
           item.getId() &&
-          !["information", "project", "serviceTag", "collaboratorTag", "media.tag"].includes(
+          !["information", "siteSettings", "project", "serviceTag", "collaboratorTag", "media.tag"].includes(
             item.getId()!,
           ),
       ),

@@ -8,6 +8,7 @@ import "./globals.css";
 import { garnierReg, garnierIta, monumentBold } from "./utils/customFonts";
 import Nav from "./components/Nav";
 import Footer from "./components/Footer";
+import PageTransition from "./components/PageTransition";
 
 export const metadata: Metadata = {
   title: "Tom Clayton Works",
@@ -25,7 +26,7 @@ export default async function RootLayout({
         className={`${monumentBold.variable} ${garnierReg.variable} ${garnierIta.variable}  antialiased text-monument-base`}
       >
         <Nav />
-        {children}
+        <PageTransition>{children}</PageTransition>
         <Footer />
         <SanityLive />
         {(await draftMode()).isEnabled && (

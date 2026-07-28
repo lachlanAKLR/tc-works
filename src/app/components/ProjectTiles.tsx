@@ -8,6 +8,7 @@ import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url
 import { colSpanMap, colStartMap } from "@/app/utils/colSpanMap";
 import Link from "next/link";
 import CloudflareStream from "./CloudflareStream";
+import TextAnimation from "./TextAnimation";
 
 const builder = createImageUrlBuilder({ projectId, dataset });
 
@@ -49,7 +50,13 @@ function ProjectTile({ project }: { project: PROJECTS_QUERYResult[number] }) {
   );
 }
 
-export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYResult }) {
+export default function ProjectsTiles({
+  projects,
+  animationText = [],
+}: {
+  projects: PROJECTS_QUERYResult;
+  animationText?: string[];
+}) {
   const [activeId, setActiveId] = useState<string | null>(projects[0]?._id ?? null);
   const refs = useRef<Map<string, HTMLElement>>(new Map());
 
@@ -84,13 +91,17 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
   const activeProject = projects.find((p) => p._id === activeId);
 
   return (
-    <div>
+    <div className="min-h-screen">
       <h1
-        className="text-monument-base fixed left-35 top-2.25 z-50 pointer-events-none w-4/5 md:w-full pr-10 text-black whitespace-pre-line
+        className="text-monument-base fixed left-35 top-2.25 z-50 pointer-events-none w-4/5 md:w-full pr-10 text-black dark:text-white whitespace-pre-line
     "
       >
         {footerVisible ? (
-          "is open for business"
+          animationText.length > 0 ? (
+            <TextAnimation phrases={animationText} loop />
+          ) : (
+            "is open for business"
+          )
         ) : (
           <>
             {activeProject?.title}

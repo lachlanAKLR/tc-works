@@ -48,7 +48,7 @@ export default function ProjectImages({ project }: { project: PROJECT_QUERYResul
       {project?.projectImages?.map((image, index) => {
         if (image.type === "imageObject" && image.asset) {
           return (
-            <div key={index} className="md:h-full md:shrink-0">
+            <div key={index} className="md:h-full md:shrink-0 relative">
               <Image
                 src={builder
                   .image(image.asset as SanityImageSource)
@@ -61,6 +61,12 @@ export default function ProjectImages({ project }: { project: PROJECT_QUERYResul
                 alt={image.alt ?? ""}
                 className="w-full md:w-auto md:h-full"
               />
+              {/* Optional caption — alt text pinned bottom-left over the image */}
+              {image.displayCaption && image.alt ? (
+                <p className="absolute bottom-0 left-0 p-3 text-monument-base text-white">
+                  {image.alt}
+                </p>
+              ) : null}
             </div>
           );
         }

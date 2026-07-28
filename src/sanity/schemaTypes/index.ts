@@ -8,10 +8,12 @@ import { projectType } from "./projectType";
 import { serviceTagType } from "./serviceTagType";
 import { collaboratorTagType } from "./collaboratorTagType";
 import { videoType } from "./objects/videoType";
+import { siteSettingsType } from "./siteSettingsType";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
     informationType,
+    siteSettingsType,
     blockContentType,
     titledListType,
     imageType,

@@ -14,5 +14,14 @@ export const imageType = defineType({
       description: "Title, Description.",
       validation: (Rule) => Rule.required(),
     }),
+    defineField({
+      name: "displayCaption",
+      title: "Display Caption",
+      type: "boolean",
+      description:
+        "Show the alt text as a caption over the image on the project page (project images only).",
+      initialValue: false,
+      options: { layout: "checkbox" },
+    }),
   ],
 });

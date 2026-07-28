@@ -35,9 +35,9 @@ export default async function Page({ params }: { params: Promise<{ slug: string 
 
   return (
     <HorizontalScroll>
+      <ProjectClose />
       <ProjectContent project={project} />
       <ProjectImages project={project} />
-      <ProjectClose />
       <ProjectRelated projects={related} />
     </HorizontalScroll>
   );

@@ -5,6 +5,21 @@ export const INFORMATION_QUERY = defineQuery(`
     _id,
     _updatedAt,
     about,
+    email,
+    phone,
+    instagram,
+    linkedin,
+    address,
+    titledLists[]{
+      title,
+      items
+    }
+  }
+`);
+
+export const SITE_SETTINGS_QUERY = defineQuery(`
+  *[_type == "siteSettings"][0]{
+    _id,
     footerImage {
       asset->{
         _id,
@@ -18,16 +33,9 @@ export const INFORMATION_QUERY = defineQuery(`
         }
       },
       alt
-    }, 
-    email,
-    phone,
-    instagram,
-    linkedin,
-    address,
-    titledLists[]{
-      title,
-      items
-    }
+    },
+    animationText,
+    indexSubtitle
   }
 `);
 
@@ -114,6 +122,7 @@ export const PROJECT_QUERY = defineQuery(`
     _id,
     title,
     subheading,
+    subtitle,
     slug,
     year,
     services[]->{ 
@@ -121,11 +130,14 @@ export const PROJECT_QUERY = defineQuery(`
       title,
       slug
     },
-    collaboratorsLabel,
     collaborators[]->{
       _id,
       title,
       slug
+    },
+    additionalInfo[]{
+      label,
+      value
     },
     mainImage {
       asset->{
@@ -174,7 +186,8 @@ export const PROJECT_QUERY = defineQuery(`
             }
           }
         },
-        alt
+        alt,
+        displayCaption
       },
       _type == "videoObject" => {
         "type": _type,

@@ -15,6 +15,27 @@ function formatUpdatedAt(dateString: string) {
   return `${day}.${month}.${year}`;
 }
 
+// Link that pops a "↗ " marker in on hover, pushing the text out. No transition —
+// a hard show/hide for the web 1.0 feel.
+function HoverArrowLink({
+  href,
+  target,
+  className,
+  children,
+}: {
+  href: string;
+  target?: string;
+  className?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a href={href} target={target} className={`group ${className ?? ""}`}>
+      <span className="hidden group-hover:inline">↗ </span>
+      {children}
+    </a>
+  );
+}
+
 export default function Informationinformation({
   information,
 }: {
@@ -22,12 +43,12 @@ export default function Informationinformation({
 }) {
   return (
     <main className="px-3 site-grid-main text-monument-base py-21">
-      <div className="col-span-6 flex flex-col gap-1 fixed">
+      <div className="col-span-12 md:col-span-6 flex flex-col gap-1 md:fixed pb-12 md:pb-0">
         <div className="grid grid-cols-6 gap-3">
           <p className="pr-3 col-span-1">ENQUIRIES</p>
-          <a className="col-span-5" href={`mailto:${information?.email}`}>
+          <HoverArrowLink className="col-span-5" href={`mailto:${information?.email}`}>
             {information?.email}
-          </a>
+          </HoverArrowLink>
         </div>
         <div className="grid grid-cols-6 gap-3">
           <p className="pr-3 col-span-1">OFFICE</p>
@@ -41,17 +62,17 @@ export default function Informationinformation({
         <div className="grid grid-cols-6 gap-3">
           <p className="pr-3 col-span-1">FOLLOW</p>
           <div className="col-span-5">
-            <a className="pr-1" target="_blank" href={`${information?.instagram}`}>
+            <HoverArrowLink className="pr-1" target="_blank" href={`${information?.instagram}`}>
               Instagram,
-            </a>
-            <a target="_blank" href={`${information?.linkedin}`}>
+            </HoverArrowLink>
+            <HoverArrowLink target="_blank" href={`${information?.linkedin}`}>
               Linkedin
-            </a>
+            </HoverArrowLink>
           </div>
         </div>
       </div>
       {information?.about ? (
-        <div className="col-start-7 col-end-13">
+        <div className="md:col-start-7 md:col-end-13 col-start-1 col-end-13">
           <div>
             <PortableText
               value={information?.about}

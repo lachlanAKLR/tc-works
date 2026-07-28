@@ -96,12 +96,13 @@ function ProjectLine({
       {/* Mobile dropdown — full-width media revealed under the row when the title is tapped */}
       {noCase && media && open && <div className="md:hidden col-span-12 w-full pt-2">{media}</div>}
 
-      {/* Service tags (desktop only) */}
+      {/* Service tags (desktop only) — flex-wrap so each tag drops to the next
+          line as a whole unit instead of squishing/breaking mid-phrase */}
       {services.length > 0 && (
-        <ul className="hidden md:flex col-span-6 gap-1">
+        <ul className="hidden md:flex md:flex-wrap col-span-6">
           {services.map((service, index) => (
-            <li key={index} className="inline whitespace-normal">
-              {`${service.title}${index < services.length - 1 ? ", " : ""}`}
+            <li key={index} className="whitespace-nowrap">
+              {`${service.title}${index < services.length - 1 ? ", " : ""}`}
             </li>
           ))}
         </ul>
@@ -123,15 +124,17 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
 
   return (
     <section>
-      <div className="pt-21 px-3 flex flex-col gap-3 [&:has(>*:hover)>*:not(:hover)]:opacity-25 min-h-screen">
+      {/* Spacing between rows is per-row py padding (not a flex gap) so adjacent
+          rows meet with no dead zone — keeps the hover state from flashing as the
+          cursor moves between lines. py-1.5 (6px) each side = the old gap-3 (12px). */}
+      <div className="pt-[calc(var(--spacing)*21-6px)] px-3 flex flex-col [&:has(>*:hover)>*:not(:hover)]:opacity-25 min-h-screen">
         {projects.map((project) => {
           const noCase = project.imageCount === null;
-          const className = "site-grid-main group transition-opacity duration-200";
+          const className = "site-grid-main group py-1.5 transition-opacity duration-200";
           const lineProps = {
             project,
             open: openId === project._id,
-            onToggle: () =>
-              setOpenId((id) => (id === project._id ? null : project._id)),
+            onToggle: () => setOpenId((id) => (id === project._id ? null : project._id)),
           };
 
           return noCase ? (
