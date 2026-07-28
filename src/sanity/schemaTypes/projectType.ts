@@ -75,37 +75,6 @@ export const projectType = defineType({
       fieldset: "meta",
     }),
     defineField({
-      name: "additionalInfo",
-      title: "Additional Info",
-      type: "array",
-      fieldset: "meta",
-      description:
-        "Optional extra label/value rows shown before the Year (e.g. IMAGES → Josh Robenstone, Rory Gardiner). Add as many as needed, or leave empty.",
-      of: [
-        defineArrayMember({
-          type: "object",
-          name: "infoRow",
-          fields: [
-            defineField({
-              name: "label",
-              title: "Label",
-              type: "string",
-              validation: (Rule) => Rule.required(),
-            }),
-            defineField({
-              name: "value",
-              title: "Value",
-              type: "string",
-              validation: (Rule) => Rule.required(),
-            }),
-          ],
-          preview: {
-            select: { title: "label", subtitle: "value" },
-          },
-        }),
-      ],
-    }),
-    defineField({
       name: "mainImage",
       title: "Main Image",
       type: "imageObject",
@@ -114,6 +83,7 @@ export const projectType = defineType({
     defineField({
       name: "mainVideo",
       title: "Main Video",
+
       type: "videoObject",
       fieldset: "media",
     }),
