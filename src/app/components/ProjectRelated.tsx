@@ -9,7 +9,7 @@ const builder = createImageUrlBuilder({ projectId, dataset });
 export default function ProjectRelated({ projects }: { projects: PROJECTS_QUERYResult }) {
   return (
     <>
-      {/* Mobile-only heading — bold body copy */}
+      {/* Mobile-only heading */}
       <div className="block md:hidden">
         <h2 className="text-monument-base text-center w-full py-20">More Projects</h2>
       </div>

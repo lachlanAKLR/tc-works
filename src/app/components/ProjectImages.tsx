@@ -61,7 +61,7 @@ export default function ProjectImages({ project }: { project: PROJECT_QUERYResul
                 alt={image.alt ?? ""}
                 className="w-full md:w-auto md:h-full"
               />
-              {/* Optional caption — alt text pinned bottom-left over the image */}
+              {/* Optional caption — comes from the image's alt text */}
               {image.displayCaption && image.alt ? (
                 <p className="absolute bottom-0 left-0 p-3 text-monument-base text-white">
                   {image.alt}

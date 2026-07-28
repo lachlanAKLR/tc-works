@@ -96,8 +96,7 @@ function ProjectLine({
       {/* Mobile dropdown — full-width media revealed under the row when the title is tapped */}
       {noCase && media && open && <div className="md:hidden col-span-12 w-full pt-2">{media}</div>}
 
-      {/* Service tags (desktop only) — flex-wrap so each tag drops to the next
-          line as a whole unit instead of squishing/breaking mid-phrase */}
+      {/* Service tags (desktop only) — each tag wraps as a whole unit, never mid-phrase */}
       {services.length > 0 && (
         <ul className="hidden md:flex md:flex-wrap col-span-6">
           {services.map((service, index) => (
@@ -124,9 +123,8 @@ export default function ProjectsTiles({ projects }: { projects: PROJECTS_QUERYRe
 
   return (
     <section>
-      {/* Spacing between rows is per-row py padding (not a flex gap) so adjacent
-          rows meet with no dead zone — keeps the hover state from flashing as the
-          cursor moves between lines. py-1.5 (6px) each side = the old gap-3 (12px). */}
+      {/* Row spacing is per-row padding, not a flex gap, so adjacent rows meet with no
+          dead zone — keeps the hover state from flashing as the cursor moves between lines. */}
       <div className="pt-[calc(var(--spacing)*21-6px)] px-3 flex flex-col [&:has(>*:hover)>*:not(:hover)]:opacity-25 min-h-screen">
         {projects.map((project) => {
           const noCase = project.imageCount === null;
