@@ -109,6 +109,12 @@
   .site-grid-main {
     @apply grid grid-cols-12 gap-gutter gap-y-0;
   }
+
+  @variant md {
+    .md\:site-grid-main {
+      @apply grid grid-cols-12 gap-gutter gap-y-0;
+    }
+  }
 }
 
 @layer utilities {

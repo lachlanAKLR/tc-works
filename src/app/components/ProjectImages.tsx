@@ -1,11 +1,8 @@
 // ProjectImages.tsx
 import { PROJECT_QUERYResult } from "../../../sanity.types";
-import { dataset, projectId } from "@/sanity/env";
 import Image from "next/image";
-import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url";
+import { sanityImage } from "@/sanity/lib/image";
 import CloudflareStream from "@/app/components/CloudflareStream";
-
-const builder = createImageUrlBuilder({ projectId, dataset });
 
 export default function ProjectImages({ project }: { project: PROJECT_QUERYResult }) {
   return (
@@ -23,6 +20,8 @@ export default function ProjectImages({ project }: { project: PROJECT_QUERYResul
               <CloudflareStream
                 src={project.mainVideo.cloudId}
                 poster={posterUrl}
+                posterWidth={dims?.width}
+                posterHeight={dims?.height}
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>
@@ -31,14 +30,7 @@ export default function ProjectImages({ project }: { project: PROJECT_QUERYResul
       ) : project?.mainImage?.asset ? (
         <div className="md:h-full md:shrink-0">
           <Image
-            src={builder
-              .image(project.mainImage.asset as SanityImageSource)
-              .width(2000)
-              .fit("max")
-              .auto("format")
-              .url()}
-            width={project.mainImage.asset.metadata?.dimensions?.width ?? undefined}
-            height={project.mainImage.asset.metadata?.dimensions?.height ?? undefined}
+            {...sanityImage(project.mainImage.asset, 2000)}
             alt={project.mainImage.alt ?? ""}
             className="w-full md:w-auto md:h-full"
           />
@@ -50,14 +42,7 @@ export default function ProjectImages({ project }: { project: PROJECT_QUERYResul
           return (
             <div key={index} className="md:h-full md:shrink-0 relative">
               <Image
-                src={builder
-                  .image(image.asset as SanityImageSource)
-                  .width(2000)
-                  .fit("max")
-                  .auto("format")
-                  .url()}
-                width={image.asset.metadata?.dimensions?.width ?? undefined}
-                height={image.asset.metadata?.dimensions?.height ?? undefined}
+                {...sanityImage(image.asset, 2000)}
                 alt={image.alt ?? ""}
                 className="w-full md:w-auto md:h-full"
               />
@@ -82,6 +67,8 @@ export default function ProjectImages({ project }: { project: PROJECT_QUERYResul
               <CloudflareStream
                 src={image.cloudId}
                 poster={posterUrl}
+                posterWidth={dims?.width}
+                posterHeight={dims?.height}
                 className="absolute inset-0 h-full w-full object-cover"
               />
             </div>

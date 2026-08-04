@@ -3,12 +3,9 @@
 import { useState } from "react";
 import { PROJECTS_QUERYResult } from "../../../sanity.types";
 import Image from "next/image";
-import { dataset, projectId } from "@/sanity/env";
-import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url";
+import { sanityImage } from "@/sanity/lib/image";
 import Link from "next/link";
 import CloudflareStream from "./CloudflareStream";
-
-const builder = createImageUrlBuilder({ projectId, dataset });
 
 function ProjectLine({
   project,
@@ -28,27 +25,18 @@ function ProjectLine({
   // Hover/dropdown media — Cloudflare video if present, else hover image, else null.
   // Rendered in two places: desktop hover overlay + mobile dropdown.
   const media = project?.hoverVideo?.cloudId ? (
-    <div
-      className="aspect-3/4 md:aspect-auto"
-      style={{ aspectRatio: dims ? `${dims.width}/${dims.height}` : undefined }}
-    >
+    <div className="aspect-3/4 md:aspect-auto">
       <CloudflareStream
         src={project.hoverVideo.cloudId}
         poster={posterUrl}
+        posterWidth={dims?.width}
+        posterHeight={dims?.height}
         className="h-full w-full object-cover"
       />
     </div>
   ) : project?.hoverImage?.asset ? (
     <Image
-      src={builder
-        .image(project.hoverImage.asset as SanityImageSource)
-        .width(2000)
-        .quality(75)
-        .fit("max")
-        .auto("format")
-        .url()}
-      width={project?.hoverImage?.asset?.metadata?.dimensions?.width ?? undefined}
-      height={project?.hoverImage?.asset?.metadata?.dimensions?.height ?? undefined}
+      {...sanityImage(project.hoverImage.asset, 2000)}
       alt={project?.hoverImage?.alt ?? ""}
       className="w-full object-cover"
     />

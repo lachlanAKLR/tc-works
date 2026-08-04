@@ -2,10 +2,7 @@ import { sanityFetch } from "@/sanity/lib/live";
 import { INFORMATION_QUERY, SITE_SETTINGS_QUERY } from "@/sanity/lib/queries";
 import FooterVisibility from "./FooterVisibility";
 import Image from "next/image";
-import { dataset, projectId } from "@/sanity/env";
-import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url";
-
-const builder = createImageUrlBuilder({ projectId, dataset });
+import { sanityImage } from "@/sanity/lib/image";
 
 export default async function Footer() {
   // Contact links come from Information; the footer image lives in Site Settings.
@@ -30,14 +27,7 @@ export default async function Footer() {
               </div>
               <div className="col-start-9 md:col-start-11 col-end-13 flex justify-end">
                 <Image
-                  src={builder
-                    .image(footerImage.asset as SanityImageSource)
-                    .width(2000)
-                    .fit("max")
-                    .auto("format")
-                    .url()}
-                  width={footerImage.asset.metadata?.dimensions?.width ?? undefined}
-                  height={footerImage.asset.metadata?.dimensions?.height ?? undefined}
+                  {...sanityImage(footerImage.asset, 2000)}
                   alt={footerImage.alt ?? ""}
                   className="w-full md:w-auto md:h-full"
                 />

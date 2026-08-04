@@ -3,14 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { PROJECTS_QUERYResult } from "../../../sanity.types";
 import Image from "next/image";
-import { dataset, projectId } from "@/sanity/env";
-import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url";
+import { sanityImage } from "@/sanity/lib/image";
 import { colSpanMap, colStartMap } from "@/app/utils/colSpanMap";
 import Link from "next/link";
 import CloudflareStream from "./CloudflareStream";
 import TextAnimation from "./TextAnimation";
-
-const builder = createImageUrlBuilder({ projectId, dataset });
 
 const LINE = 36;
 
@@ -21,27 +18,18 @@ function ProjectTile({ project }: { project: PROJECTS_QUERYResult[number] }) {
   return (
     <Link href={`/project/${project.slug?.current}`} className="block">
       {project?.mainVideo?.cloudId ? (
-        <div
-          className="pointer-events-none aspect-3/4 md:aspect-auto"
-          style={{ aspectRatio: dims ? `${dims.width}/${dims.height}` : undefined }}
-        >
+        <div className="pointer-events-none aspect-3/4 md:aspect-auto">
           <CloudflareStream
             src={project.mainVideo.cloudId}
             poster={posterUrl}
+            posterWidth={dims?.width}
+            posterHeight={dims?.height}
             className="h-full w-full object-cover"
           />
         </div>
       ) : project?.mainImage?.asset ? (
         <Image
-          src={builder
-            .image(project.mainImage.asset as SanityImageSource)
-            .width(2000)
-            .quality(75)
-            .fit("max")
-            .auto("format")
-            .url()}
-          width={project?.mainImage?.asset?.metadata?.dimensions?.width ?? undefined}
-          height={project?.mainImage?.asset?.metadata?.dimensions?.height ?? undefined}
+          {...sanityImage(project.mainImage.asset, 2000)}
           alt={project?.mainImage?.alt ?? ""}
           className="aspect-3/4 w-full object-cover md:aspect-auto md:h-auto md:object-fill"
         />

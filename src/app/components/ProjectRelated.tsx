@@ -1,10 +1,7 @@
 import { PROJECTS_QUERYResult } from "../../../sanity.types";
 import Image from "next/image";
 import Link from "next/link";
-import { dataset, projectId } from "@/sanity/env";
-import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url";
-
-const builder = createImageUrlBuilder({ projectId, dataset });
+import { sanityImage } from "@/sanity/lib/image";
 
 export default function ProjectRelated({ projects }: { projects: PROJECTS_QUERYResult }) {
   return (
@@ -19,14 +16,7 @@ export default function ProjectRelated({ projects }: { projects: PROJECTS_QUERYR
             <Link href={`/project/${project.slug?.current}`} className="block h-full">
               {project?.mainImage?.asset && (
                 <Image
-                  src={builder
-                    .image(project.mainImage.asset as SanityImageSource)
-                    .width(2000)
-                    .fit("max")
-                    .auto("format")
-                    .url()}
-                  width={project?.mainImage?.asset?.metadata?.dimensions?.width ?? undefined}
-                  height={project?.mainImage?.asset?.metadata?.dimensions?.height ?? undefined}
+                  {...sanityImage(project.mainImage.asset, 2000)}
                   alt={project?.mainImage?.alt ?? ""}
                   className="h-full w-full object-cover transition-all ease duration-200"
                 />

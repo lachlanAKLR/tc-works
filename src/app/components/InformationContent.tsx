@@ -1,11 +1,9 @@
 import { INFORMATION_QUERYResult } from "../../../sanity.types";
 import { PortableText } from "next-sanity";
 import { getPortableTextComponents } from "./PortableTextComponents";
-import { dataset, projectId } from "@/sanity/env";
 import Image from "next/image";
-import { createImageUrlBuilder, type SanityImageSource } from "@sanity/image-url";
-
-const builder = createImageUrlBuilder({ projectId, dataset });
+import { sanityImage } from "@/sanity/lib/image";
+import Link from "next/link";
 
 function formatUpdatedAt(dateString: string) {
   const date = new Date(dateString);
@@ -42,41 +40,59 @@ export default function Informationinformation({
   information: INFORMATION_QUERYResult;
 }) {
   return (
-    <main className="px-3 site-grid-main text-monument-base py-21">
-      <div className="col-span-12 md:col-span-6 flex flex-col gap-1 md:fixed pb-12 md:pb-0">
-        <div className="grid grid-cols-6 gap-3">
-          <p className="pr-3 col-span-1">ENQUIRIES</p>
-          <HoverArrowLink className="col-span-5" href={`mailto:${information?.email}`}>
-            {information?.email}
-          </HoverArrowLink>
-        </div>
-        <div className="grid grid-cols-6 gap-3">
-          <p className="pr-3 col-span-1">OFFICE</p>
-          <div className="col-span-5">
-            <PortableText
-              value={information?.address}
-              components={getPortableTextComponents(false)}
-            />
+    <main className="px-3 site-grid-main text-monument-base pt-21 pb-3">
+      <div className="col-span-12 md:col-span-6 flex flex-col gap-1 top-10 pb-12 md:pb-0 ">
+        <div className="w-full md:sticky top-21">
+          <div className="grid grid-cols-6 gap-3 w-full">
+            <p className="pr-3 col-span-2 md:col-span-1">ENQUIRIES</p>
+            <HoverArrowLink className="col-span-4" href={`mailto:${information?.email}`}>
+              {information?.email}
+            </HoverArrowLink>
           </div>
-        </div>
-        <div className="grid grid-cols-6 gap-3">
-          <p className="pr-3 col-span-1">FOLLOW</p>
-          <div className="col-span-5">
-            <HoverArrowLink className="pr-1" target="_blank" href={`${information?.instagram}`}>
-              Instagram,
-            </HoverArrowLink>
-            <HoverArrowLink target="_blank" href={`${information?.linkedin}`}>
-              Linkedin
-            </HoverArrowLink>
+          <div className="grid grid-cols-6 gap-3 w-full">
+            <p className="pr-3 col-span-2 md:col-span-1">OFFICE</p>
+            <div className="col-span-4">
+              <PortableText
+                value={information?.address}
+                components={getPortableTextComponents(false)}
+              />
+            </div>
+          </div>
+          <div className="grid grid-cols-6 gap-3 w-full">
+            <p className="pr-3 col-span-2 md:col-span-1">FOLLOW</p>
+            <div className="col-span-4">
+              <HoverArrowLink className="pr-1" target="_blank" href={`${information?.instagram}`}>
+                Instagram,
+              </HoverArrowLink>
+              <HoverArrowLink target="_blank" href={`${information?.linkedin}`}>
+                Linkedin
+              </HoverArrowLink>
+            </div>
           </div>
         </div>
       </div>
       {information?.about ? (
         <div className="md:col-start-7 md:col-end-13 col-start-1 col-end-13">
-          <div>
-            <PortableText
-              value={information?.about}
-              components={getPortableTextComponents(false)}
+          <PortableText value={information?.about} components={getPortableTextComponents(false)} />
+        </div>
+      ) : null}
+      {information?.mainImage?.asset ? (
+        <div className="col-span-12 mt-20 md:mt-100 flex flex-col-reverse gap-20 md:grid md:site-grid-main md:gap-3 pb-20 md:pb-0">
+          <div className="col-span-6 self-auto md:self-end">
+            <p>All work ©TOM CLAYTON and respective owners {new Date().getFullYear()}</p>
+            <p>
+              Website development by:{" "}
+              <Link href="https://www.aklr.xyz/" target="_blank">
+                AKLR Studio
+              </Link>
+            </p>
+          </div>
+
+          <div className="col-start-7 col-end-9 mt-0 md:-mt-4 w-1/2 md:w-full">
+            <Image
+              {...sanityImage(information.mainImage.asset, 800)}
+              alt={information.mainImage.caption ?? ""}
+              className="w-full h-auto"
             />
           </div>
         </div>

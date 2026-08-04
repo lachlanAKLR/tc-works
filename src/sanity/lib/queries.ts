@@ -4,6 +4,20 @@ export const INFORMATION_QUERY = defineQuery(`
   *[_type == "information"][0]{
     _id,
     _updatedAt,
+    mainImage {
+      asset->{
+        _id,
+        url,
+        metadata {
+          dimensions {
+            width,
+            height,
+            aspectRatio
+          }
+        }
+      },
+      caption
+    },
     about,
     email,
     phone,
@@ -134,10 +148,6 @@ export const PROJECT_QUERY = defineQuery(`
       _id,
       title,
       slug
-    },
-    additionalInfo[]{
-      label,
-      value
     },
     mainImage {
       asset->{

@@ -15,6 +15,17 @@ export const informationType = defineType({
   ],
   fields: [
     defineField({
+      name: "mainImage",
+      title: "Main Image",
+      type: "image",
+      fields: [
+        defineField({
+          name: "caption",
+          type: "string",
+        }),
+      ],
+    }),
+    defineField({
       name: "about",
       type: "blockContent",
     }),
