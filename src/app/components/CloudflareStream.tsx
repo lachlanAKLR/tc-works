@@ -29,7 +29,7 @@ export default function CloudflareStream({
         <div
           className={`absolute inset-0 transition-opacity duration-500 ${videoReady ? "opacity-0 pointer-events-none" : "opacity-100"}`}
         >
-          <Image src={poster} alt="" fill className="object-cover" priority />
+          <Image src={poster} alt="" fill quality={90} className="object-cover" priority />
         </div>
       )}
       <Stream

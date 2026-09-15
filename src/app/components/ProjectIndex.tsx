@@ -42,13 +42,15 @@ function ProjectLine({
     />
   ) : null;
 
-  // Status icon — eye for noCase projects, filled dot for case studies
+  // Status icon — eye for noCase projects, filled dot for case studies.
+  // Eye is vector: the optimizer passes SVG through untouched, so it skips the round-trip.
   const icon = noCase ? (
     <Image
       src="/eye.svg"
       alt="eye icon"
       width={8}
       height={8}
+      unoptimized
       className="h-3 w-auto relative top-0.75"
     />
   ) : (
