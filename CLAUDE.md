@@ -17,6 +17,12 @@ Portfolio site for Tom Clayton (design & creative direction). Next.js 15 (App Ro
 
 Requires `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, and `SANITY_API_READ_TOKEN` in the environment (`src/sanity/env.ts` throws if the public ones are missing).
 
+## Workflow
+
+- Never commit or push to `main`; it's what the live site deploys from. Work on a branch and open a pull request for review.
+- The local dev server reads the **live** Sanity dataset. Don't write to it (Studio edits, `sanity exec` scripts, mutations) unless explicitly asked; those changes hit the real site immediately.
+- Run `npm run lint` and `npm run build` before pushing.
+
 ## Architecture
 
 ### Sanity content flow
@@ -33,7 +39,13 @@ Requires `NEXT_PUBLIC_SANITY_PROJECT_ID`, `NEXT_PUBLIC_SANITY_DATASET`, and `SAN
 - Routes: `/` (project tiles), `/overview`, `/about`, `/project/[slug]` (horizontal-scrolling detail page), `/studio/[[...tool]]`. Route `params` are a `Promise` and must be awaited (Next 15).
 - Pages are server components; interactive components (`ProjectTiles`, `Nav`, `CloudflareStream`, `horizontalScroll`, etc.) are `"use client"`. Components live flat in `src/app/components/`, shared helpers in `src/app/utils/`, hooks in `src/app/hooks/`.
 - **Video**: the `videoObject` schema stores a Cloudflare Stream ID + poster image; render with the `CloudflareStream` component (`@cloudflare/stream-react`), which fades the poster out once the video is ready.
-- **Images**: built with `createImageUrlBuilder` from `@sanity/image-url` using dimensions from query metadata for aspect ratios.
+- **Images**: every Sanity image goes through `sanityImage(asset, maxWidth)` in `src/sanity/lib/image.ts` and is spread onto `next/image`. Never pass `urlFor(...).url()` straight into `src`. Cap `maxWidth` to the size the image actually renders at, not the source resolution. The helper derives width/height from the queried `metadata.dimensions`; for `fill` images, always pair `fill` with a `sizes` prop matching the container. Any `quality` value used must also be listed in `images.qualities` in `next.config.ts`.
+
+### Component conventions
+
+- Give each distinct piece of a component a short name (a `const` or sub-component) that says what it *is* (`media`, `titleToggle`), rather than inlining large anonymous JSX blocks.
+- Label each meaningful section of returned JSX with a short comment, e.g. `{/* Year + status icon (desktop) */}`. Only add more than the label when the behaviour isn't visible from the markup (what toggles it, when it stops, which breakpoint). Don't restate classes, values or how it looks.
+- Match the existing file naming, query style and component structure.
 
 ### Styling (Tailwind v4 — CSS-first config)
 
